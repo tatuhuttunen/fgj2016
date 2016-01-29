@@ -8,6 +8,8 @@ BasicGame.MainMenu = function (game) {
 
 BasicGame.MainMenu.prototype = {
 
+	cardList: new Array(),
+
 	create: function () {
 
 		//	We've already preloaded our assets, so let's kick right into the Main Menu itself.
@@ -20,6 +22,21 @@ BasicGame.MainMenu.prototype = {
 		//this.add.sprite(0, 0, 'titlepage');
 
 		//this.playButton = this.add.button(400, 600, 'playButton', this.startGame, this, 'buttonOver', 'buttonOut', 'buttonOver');
+		for(var i = 0; i < 5; i++){
+
+			 this.cardList.push(this.add.sprite(300+ (i*100), 0, 'star'));
+
+		}
+
+		for(var i = 0; i < 5; i++){
+
+			 this.cardList.push(this.add.sprite(300+(i*100), 500, 'star'));
+
+		}
+
+		
+
+		  
 
 	},
 
