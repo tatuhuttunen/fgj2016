@@ -19,7 +19,10 @@ BasicGame.MainMenu = function (game) {
 
 	this.music = null;
 	this.playButton = null;
-  	this.sessionId = null;
+  this.sessionId = null;
+  this.counter = 0;
+  this.limit = 150;
+  this.eventsJSON = null;
 
 };
 
@@ -50,9 +53,9 @@ BasicGame.MainMenu.prototype = {
 				}
 			}
 
-		
 
-	
+
+
 
 	},
 	endTurn: function(playerData){
@@ -77,9 +80,9 @@ BasicGame.MainMenu.prototype = {
 
 		if(!parsedData) return;
 
-		
+
 		if(playerId === BasicGame.playerId){
-			
+
 			if(parsedData.eventType === 'toHand'){
 				var card = findCardById(this.players[0] , parsedData.cardId);
 				if(parsedData.eventInfo === 'fromFloor'){
@@ -92,10 +95,10 @@ BasicGame.MainMenu.prototype = {
 			else if(parsedData.eventType === 'toFloor'){
 
 				var card = findCardById(this.players[0] , parsedData.cardId);
-				
+
 				card.sendToFloor(this.players[0].cardHand,this);
-				
-				
+
+
 
 			}
 			else if(parsedData.eventType === 'endTurn'){
@@ -124,7 +127,7 @@ BasicGame.MainMenu.prototype = {
 			else if(parsedData.eventType === 'toFloor'){
 
 				var card = findCardById(this.players[1] , parsedData.cardId);
-				
+
 				card.sendToFloor(this.players[1].cardHand,this,'turn');
 
 			}
@@ -141,8 +144,8 @@ BasicGame.MainMenu.prototype = {
 		}
 
 
-		
-		
+
+
 
 
 	},
@@ -158,7 +161,7 @@ BasicGame.MainMenu.prototype = {
 
 		}
 		else if(type === 'attackTo'){
-			
+
 		}
 
 
@@ -177,7 +180,7 @@ BasicGame.MainMenu.prototype = {
 		this.players.push(new Player(this,0,0,'Player'));
 		this.players.push(new Player(this,0,0,'Opponent'));
 		var game = this;
-
+    this.postEvent('testData');
 		for(var i = 0; i < 50; i++){
 
 
@@ -272,7 +275,12 @@ BasicGame.MainMenu.prototype = {
 		})
 	},
 	update: function () {
-
+    this.counter++;
+    if (this.counter >= this.limit)
+    {
+      this.counter = 0;
+      this.getEvents();
+    }
 	},
 
 	startGame: function (pointer) {
@@ -283,7 +291,35 @@ BasicGame.MainMenu.prototype = {
 		//	And start the actual game
 		this.state.start('Game');
 
-	}
+	},
+
+  postEvent: function (json) {
+    instance = this;
+    $.ajax({
+      type: "POST",
+      url: API_URL + '?action=addevent',
+      data: {
+        "sessionId": BasicGame.sessionId,
+        "playerId": BasicGame.playerId,
+        "data": json
+      },
+      success: function(data){
+      },
+    });
+  },
+
+  getEvents: function() {
+    instance = this;
+    $.ajax({
+      type: "GET",
+      url: API_URL + '?action=getevents' + '&sessionId=' + BasicGame.sessionId,
+      success: function(data){
+        if (data !== "") {
+          instance.getEvent(data);
+        }
+      },
+    });
+  }
 
 
 };

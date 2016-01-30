@@ -41,7 +41,6 @@ BasicGame.Lobby.prototype = {
       type: "GET",
       url: API_URL + '?action=getoccupied' + '&sessionId=' + BasicGame.sessionId,
       success: function(data){
-        console.log(data);
         if (data === 'occupied') {
           lobby.state.start('MainMenu');
         }
