@@ -5,9 +5,10 @@ BasicGame.MainMenu = function (game) {
 
 	this.music = null;
 	this.playButton = null;
+  this.sessionId = null;
 
 };
-	
+
 BasicGame.MainMenu.prototype = {
 
 
@@ -16,10 +17,9 @@ BasicGame.MainMenu.prototype = {
 
 	players: new Array(),
 
-	
+
 
 	create: function () {
-
 		//	We've already preloaded our assets, so let's kick right into the Main Menu itself.
 		//	Here all we're doing is playing some music and adding a picture and button
 		//	Naturally I expect you to do something significantly better :)
@@ -47,7 +47,7 @@ BasicGame.MainMenu.prototype = {
 		for(var i = 0; i < 50; i++){
 
 
-			
+
 			var buf = new Card(this,100, 300,"Opponent " + i ,this.players[1],'card_front');
 			buf.inputEnabled = true;
 			buf.anchor.set(0.5);
@@ -77,26 +77,23 @@ BasicGame.MainMenu.prototype = {
 
 		}
 
-		
-		
+
+
 */
 		for(var i = 0; i < 50; i++)
 			{
-
-			
 				this.add.existing(this.players[0].cardPack[i]);
 				this.add.existing(this.players[1].cardPack[i]);
 			}
-
 	},
-	
+
 	changeImg: function(obj,textureName){
 
 
 		if(obj){
 			obj.loadTexture(textureName,0,false);
 		}
-		
+
 	},
 	setTurning: function(buf,command){
 
@@ -110,28 +107,26 @@ BasicGame.MainMenu.prototype = {
 			}
 			else{
 				game.changeImg(buf,buf.frontName);
-				
+
 			}
 		}
 		tween.onComplete.add(function(){
-			
+
 			if(command !== 'firstImg'){
 				if(buf.key !== 'card'){
 				game.changeImg(buf,'card');
 				}
 				else{
 					game.changeImg(buf,buf.frontName);
-					
+
 				}
 			}
-			
+
 			game.add.tween(buf.scale).to({ x: 1},500,Phaser.Easing.Exponential.Out, true);
 
 		})
 	},
 	update: function () {
-	
-		//	Do some nice funky main menu effect here
 
 	},
 
@@ -144,6 +139,6 @@ BasicGame.MainMenu.prototype = {
 		this.state.start('Game');
 
 	}
-		
+
 
 };

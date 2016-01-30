@@ -29,7 +29,7 @@ BasicGame.Preloader.prototype = {
 		//this.load.audio('titleMusic', ['audio/main_menu.mp3']);
 		//this.load.bitmapFont('caslon', 'fonts/caslon.png', 'fonts/caslon.xml');
 		//	+ lots of other required assets here
-	
+
 
 	},
 
@@ -37,7 +37,7 @@ BasicGame.Preloader.prototype = {
 
 		//	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
 		//his.preloadBar.cropEnabled = false;
-		this.state.start('MainMenu');
+		this.state.start('Setup');
 	},
 
 	update: function () {
