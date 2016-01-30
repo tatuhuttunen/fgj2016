@@ -70,9 +70,16 @@ BasicGame.MainMenu.prototype = {
 		var tween = this.add.tween(buf.scale).to({ x: 0},500,Phaser.Easing.Linear.None, true);
 		var game = this;
 		var buf = buf;
+
 		tween.onComplete.add(function(){
 			
-			game.changeImg(buf,'frontcard_keerlo_himo');
+			if(buf.key !== 'card'){
+				game.changeImg(buf,'card');
+			}
+			else{
+				game.changeImg(buf,buf.frontName);
+				
+			}
 			game.add.tween(buf.scale).to({ x: 1},500,Phaser.Easing.Linear.None, true);
 
 		})
