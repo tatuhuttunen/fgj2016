@@ -1,19 +1,21 @@
 //  Here is a custom game object
-Card = function (game, x, y, Name, frontName,backName) {
+Card = function (game, x, y, Name, upper, frontName,backName) {
 
     Phaser.Sprite.call(this, game, x, y, 'card');
 
     this.Name = Name;
 
 
-    this.id = (game.player_cardPack.length + "PLAYER");
+   
 
 	
 	this.turning = true;
 
 	this.backName = backName || 'card_back';
 	this.frontName = frontName;
-	
+	this.upper = upper;
+
+	this.id = (this.upper.cardPack.length + "PLAYER");
 	this.game = game;
 };
 
@@ -32,10 +34,11 @@ Card.prototype.update = function() {
 };
 Card.prototype.sendToHand = function(compare_array,game,command) {
 
+
     //this.angle += this.rotateSpeed;
 	var len  = 0;
     for(var b = 0; b < 5; b++){
-    	if(game.player_cardHand[b]){
+    	if(this.upper.cardHand[b]){
 
     		len++;
     	}
@@ -50,21 +53,31 @@ Card.prototype.sendToHand = function(compare_array,game,command) {
   
     for(var z = 0; z < 5; z++){
 
-    	if(!game.player_cardHand[z]){
+    	if(!this.upper.cardHand[z]){
 
-    		game.player_cardHand[z] = this;
+    		this.upper.cardHand[z] = this;
     	
     		break;
     	}
 
     }
 
-  console.log(z + " hep");
+var xpos = 456 + ((z-1)*80);
+var ypos = 0;
+if(this.Name.indexOf("Player") > -1){
+
     //1024 / 2, 512 /2, 256 + (5*80)
-var pos = 456 + ((z-1)*80);
+  	ypos = 600;
+}
+else{
+
+	ypos = 100;
+
+}
+
 
     if(len < 5){
-    	var tween = game.add.tween(this).to({ x: pos, y: 500 },1500,Phaser.Easing.Exponential.Out, true);
+    	var tween = game.add.tween(this).to({ x: xpos, y: ypos },1500,Phaser.Easing.Exponential.Out, true);
     	this.events.onInputDown.removeAll();
 		for(var i = 0; i < compare_array.length; i++){
 			if(compare_array[i] && compare_array[i].Name === this.Name){
@@ -79,7 +92,7 @@ var pos = 456 + ((z-1)*80);
 			}
 			
 
-			buf.events.onInputDown.add(function(buf){buf.sendToFloor(this.player_cardHand,game);} , game);
+			buf.events.onInputDown.add(function(buf){buf.sendToFloor(buf.upper.cardHand,game);} , game);
 		});
 		
     }
@@ -93,7 +106,7 @@ Card.prototype.sendToFloor = function(compare_array,game) {
     //this.angle += this.rotateSpeed;
     var len  = 0;
     for(var b = 0; b < 5; b++){
-    	if(game.player_cardFloor[b]){
+    	if(this.upper.cardFloor[b]){
 
     		len++;
     	}
@@ -105,18 +118,30 @@ Card.prototype.sendToFloor = function(compare_array,game) {
     //1024 / 2, 512 /2, 256 + (5*80)
 	    for(var z = 0; z < 4; z++){
 
-    	if(!game.player_cardFloor[z]){
-    		game.player_cardFloor[z] = this;
+    	if(!this.upper.cardFloor[z]){
+    		this.upper.cardFloor[z] = this;
     		break;
     	}
 
     }
 
     //1024 / 2, 512 /2, 256 + (5*80)
-	var pos = 456 + ((z-1)*80);
+	var xpos = 456 + ((z-1)*80);
+	var ypos = 0;
+	if(this.Name.indexOf("Player") > -1){
+
+	    //1024 / 2, 512 /2, 256 + (5*80)
+	  	ypos = 350;
+	}
+	else{
+
+		ypos = 250;
+
+	}
+
 
     if(len < 4){
-    	var tween = game.add.tween(this).to({ x: pos, y: 350 },1500,Phaser.Easing.Exponential.Out, true);
+    	var tween = game.add.tween(this).to({ x: xpos, y: ypos },1500,Phaser.Easing.Exponential.Out, true);
     	this.events.onInputDown.removeAll();
 		for(var i = 0; i < compare_array.length; i++){
 			if(compare_array[i] && compare_array[i].Name === this.Name){
@@ -127,7 +152,7 @@ Card.prototype.sendToFloor = function(compare_array,game) {
 		}
 		tween.onComplete.add(function(buf){
 		//	game.setTurning(buf);
-			buf.events.onInputDown.add(function(buf){buf.sendToHand(game.player_cardFloor,game);} , game);
+			buf.events.onInputDown.add(function(buf){buf.sendToHand(buf.upper.cardFloor,game);} , game);
 			
 		});
 		
