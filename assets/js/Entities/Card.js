@@ -11,7 +11,7 @@ Card = function (game, x, y, Name, upper, frontName,backName,id) {
 	this.frontName = frontName;
 	this.upper = upper;
 
-	this.id = id || this.upper.cardPack.length + "PLAYER");
+	this.id = id || (this.upper.cardPack.length + "PLAYER");
 	this.game = game;
 };
 

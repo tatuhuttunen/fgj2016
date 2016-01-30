@@ -128,13 +128,13 @@ BasicGame.MainMenu.prototype = {
 
 				for(var i = 0; i < parsedData.data.cardPackHost.length; i++){
 
-					this.players[1].cardPack.push(new Card(this,100, 300,parsedData.data.cardPackHost[i].Name ,this.players[1],'card_front',null,parsedData.data.cardPackGuest[i].id););
+					this.players[1].cardPack.push(new Card(this,100, 300,parsedData.data.cardPackHost[i].Name ,this.players[1],'card_front',null,parsedData.data.cardPackGuest[i].id));
 
 				}
 
 				for(var i = 0; i < parsedData.data.cardPackGuest.length; i++){
 
-					this.players[0].cardPack.push(new Card(this,900, 300,parsedData.data.cardPackGuest[i].Name ,this.players[0],'card_front',null,parsedData.data.cardPackGuest[i].id););
+					this.players[0].cardPack.push(new Card(this,900, 300,parsedData.data.cardPackGuest[i].Name ,this.players[0],'card_front',null,parsedData.data.cardPackGuest[i].id));
 
 				}
 
