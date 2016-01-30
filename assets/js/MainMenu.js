@@ -127,6 +127,21 @@ BasicGame.MainMenu.prototype = {
 
 				this.players[1].cardPack = parsedData.data.cardPackHost;
 				this.players[0].cardPack = parsedData.data.cardPackGuest;
+
+				for(var i = 0; i < this.players[0].cardPack.length; i++){
+					if(this.players[0].cardPack[i]){
+						this.players[0].cardPack.upper = this.players[0];
+					}
+				}
+				for(var i = 0; i < this.players[1].cardPack.length; i++){
+					if(this.players[1].cardPack[i]){
+						this.players[1].cardPack.upper = this.players[1];
+					}
+				}
+		
+
+		
+
 				for(var i = 0; i < 50; i++)
 				{
 					this.add.existing(this.players[0].cardPack[i]);
@@ -171,6 +186,19 @@ BasicGame.MainMenu.prototype = {
 	sendEvent: function(type,addinfo){
 
 		var game = this;
+
+		for(var i = 0; i < this.players[0].cardPack.length; i++){
+			if(this.players[0].cardPack[i]){
+				this.players[0].cardPack.upper = null;
+			}
+		}
+
+		for(var i = 0; i < this.players[1].cardPack.length; i++){
+			if(this.players[1].cardPack[i]){
+				this.players[1].cardPack.upper = null;
+			}
+		}
+
 		if(type === 'gameStart'){
 			this.postEvent(
 			JSON.stringify({
@@ -182,8 +210,8 @@ BasicGame.MainMenu.prototype = {
 				eventType: type,
 				eventInfo: '',
 				card_id: addinfo,
-				cardPackHost: game.players[0].cardPack,
-				cardPackGuest: game.players[1].cardPack
+				cardPackHost: this.players[0].cardPack,
+				cardPackGuest: this.players[1].cardPack
 			}
 		}
 	
