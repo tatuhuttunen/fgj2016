@@ -85,7 +85,7 @@ BasicGame.MainMenu.prototype = {
 		var parsedData = JSON.parse(jsonData);
 	
 		
-		if(!parsedData || !parseData.data || !parseData.data.eventType) return;
+		if(!parsedData || !parsedData.data || !parsedData.data.eventType) return;
 
 	
 		if(parsedData.player_id === BasicGame.playerId){
