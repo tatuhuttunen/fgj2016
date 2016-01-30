@@ -38,9 +38,23 @@ BasicGame.Setup.prototype = {
     this.state.start('MainMenu');
 
   },
+  lobby: function (pointer) {
+    //  And start the actual game
+    this.state.start('Lobby');
+
+  },
+  generateSessionId: function() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXY0123456789";
+
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+  },
   createGame: function () {
     var setupInstance = this;
-    var sessionId = 'ABCDE';
+    var sessionId = this.generateSessionId();
     BasicGame.sessionId = sessionId;
     BasicGame.playerId = 'host';
     $.ajax({
@@ -50,7 +64,7 @@ BasicGame.Setup.prototype = {
         "sessionId": sessionId
       },
       success: function(data){
-        setupInstance.startGame();
+        setupInstance.lobby();
       },
     });
   },
@@ -66,13 +80,10 @@ BasicGame.Setup.prototype = {
         "sessionId": sessionId
       },
       success: function(data){
-        if (data === 'error')
-        {
+        if (data === 'error') {
           alert('Game not available!');
-          this.state.start('MainMenu');
         }
-        else
-        {
+        else {
           setupInstance.startGame();
         }
       },
