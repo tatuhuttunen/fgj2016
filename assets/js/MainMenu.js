@@ -262,7 +262,7 @@ BasicGame.MainMenu.prototype = {
 
 			this.players[1].cardPack.push(buf);
 			}
-
+			this.sendEvent('gameStart');
     	}
 
 		
