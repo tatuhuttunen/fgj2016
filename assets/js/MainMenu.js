@@ -33,7 +33,7 @@ BasicGame.MainMenu.prototype = {
 			var buf = new Card(this,300+ (i*100), 0,"Stuba " + i ,1);
 			buf.inputEnabled = true;
 			buf.anchor.set(0.5);
-			buf.events.onInputDown.add(function(buf){buf.setTurning();} , this);
+			buf.events.onInputDown.add(function(buf){this.setTurning(buf);} , this);
 			this.cardList.push(buf );
 
 		}
@@ -43,7 +43,7 @@ BasicGame.MainMenu.prototype = {
 			var buf = new Card(this,300+ (i*100), 500,"Stuba " + (i+5),1);
 			buf.inputEnabled = true;
 			buf.anchor.set(0.5);
-			buf.events.onInputDown.add(function(buf){buf.setTurning();} , this);
+			buf.events.onInputDown.add(function(buf){this.setTurning(buf);} , this);
 			this.cardList.push(buf );
 
 		}
@@ -64,6 +64,18 @@ BasicGame.MainMenu.prototype = {
 			obj.loadTexture(textureName,0,false);
 		}
 		
+	},
+	setTurning: function(buf){
+
+		var tween = this.add.tween(buf.scale).to({ x: 0},500,Phaser.Easing.Linear.None, true);
+		var game = this;
+		var buf = buf;
+		tween.onComplete.add(function(){
+			
+			game.changeImg(buf,'frontcard_keerlo_himo');
+			game.add.tween(buf.scale).to({ x: 1},500,Phaser.Easing.Linear.None, true);
+
+		})
 	},
 	update: function () {
 	

@@ -27,12 +27,12 @@ Card.prototype.update = function() {
 
 };
 Card.prototype.setTurning = function(){
-	setInterval(console.log("hddep")
-	, 60);
+
+	BasicGame.add.tween(this).to({ scale: 0},2000,Phaser.Easing.Linear.None, true);
 }
 Card.prototype.cardTurn = function(){
 		
-		console.log("hep");
+
 		if(this.turning){
 			if(this.scale.x > 0){
 			this.scale.x -= 0.1;
