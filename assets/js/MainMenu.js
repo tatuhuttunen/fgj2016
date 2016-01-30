@@ -83,13 +83,13 @@ BasicGame.MainMenu.prototype = {
 
 
 		var parsedData = JSON.parse(jsonData);
-		console.log(parsedData, "hep");
+	
 		
 		if(!parsedData) return;
 
 
 		if(parsedData.player_id === BasicGame.playerId){
-
+			
 			if(parsedData.data.eventType === 'toHand'){
 				var card = findCardById(this.players[0] , parsedData.cardId);
 				if(parsedData.data.eventInfo === 'fromFloor'){
@@ -122,7 +122,19 @@ BasicGame.MainMenu.prototype = {
 
 		}
 		else{
-			if(parsedData.eventType === 'toHand'){
+
+			if(parsedData.data.eventType === 'startGame'){
+
+				this.players[1].cardPack = parsedData.data.cardPackHost;
+				this.players[0].cardPack = parsedData.data.cardPackGuest;
+				for(var i = 0; i < 50; i++)
+				{
+					this.add.existing(this.players[0].cardPack[i]);
+					this.add.existing(this.players[1].cardPack[i]);
+				}
+
+			}
+			else if(parsedData.eventType === 'toHand'){
 				var card = findCardById(this.players[1] , parsedData.data.card_id);
 				if(parsedData.eventInfo === 'fromFloor'){
 					card.sendToHand(this.players[1].cardFloor,this);
@@ -158,7 +170,24 @@ BasicGame.MainMenu.prototype = {
 	},
 	sendEvent: function(type,addinfo){
 
+		if(type === 'gameStart'){
+			this.postEvent(
+			JSON.stringify({
 
+			player_id: BasicGame.playerId,
+			sessionId: BasicGame.sessionId,
+			data: {
+
+				eventType: type,
+				eventInfo: '',
+				card_id: addinfo,
+				cardPackHost: this.players[0].cardPack,
+				cardPackGuest: this.player[1].cardPack
+			}}
+	
+				)
+			);
+		}
 		
 		if(type === 'toHand'){
 			this.postEvent(
@@ -171,6 +200,7 @@ BasicGame.MainMenu.prototype = {
 				eventType: type,
 				eventInfo: '',
 				card_id: addinfo
+				
 		
 			}}
 	
@@ -206,7 +236,11 @@ BasicGame.MainMenu.prototype = {
 		this.players.push(new Player(this,0,0,'Opponent'));
 		var game = this;
     
-		for(var i = 0; i < 50; i++){
+
+    	if(BasicGame.playerId === "host"){
+
+
+    		for(var i = 0; i < 50; i++){
 
 
 
@@ -215,9 +249,9 @@ BasicGame.MainMenu.prototype = {
 			buf.anchor.set(0.5);
 			buf.events.onInputDown.add(function(buf){buf.sendToHand(game.players[0].cardPack,this,'turn');} , this);
 			this.players[0].cardPack.push(buf);
-		}
+			}
 
-		for(var i = 0; i < 50; i++){
+			for(var i = 0; i < 50; i++){
 
 
 
@@ -227,7 +261,11 @@ BasicGame.MainMenu.prototype = {
 			//buf.events.onInputDown.add(function(buf){buf.sendToHand(game.players[1].cardPack,this,'turn');} , this);
 
 			this.players[1].cardPack.push(buf);
-		}
+			}
+
+    	}
+
+		
 
 		//this.playButton = this.add.button(400, 600, 'playButton', this.startGame, this, 'buttonOver', 'buttonOut', 'buttonOver');
 		/*for(var i = 0; i < 5; i++){
@@ -254,11 +292,14 @@ BasicGame.MainMenu.prototype = {
 
 
 */
-		for(var i = 0; i < 50; i++)
-			{
-				this.add.existing(this.players[0].cardPack[i]);
-				this.add.existing(this.players[1].cardPack[i]);
-			}
+		if(BasicGame.playerId === "host"){
+
+			for(var i = 0; i < 50; i++)
+				{
+					this.add.existing(this.players[0].cardPack[i]);
+					this.add.existing(this.players[1].cardPack[i]);
+				}
+		}
 	},
 
 	changeImg: function(obj,textureName){
