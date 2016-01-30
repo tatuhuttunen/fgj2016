@@ -41,7 +41,7 @@ BasicGame.MainMenu.prototype = {
 			var buf = new Card(this,900, 300,"Stuba " + i ,1);
 			buf.inputEnabled = true;
 			buf.anchor.set(0.5);
-			buf.events.onInputDown.add(function(buf){buf.sendToHand(this.player_cardPack,this);} , this);
+			buf.events.onInputDown.add(function(buf){buf.sendToHand(this.player_cardPack,this,'turn');} , this);
 			this.player_cardPack.push(buf);
 		}
 

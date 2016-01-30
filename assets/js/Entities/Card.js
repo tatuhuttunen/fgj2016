@@ -28,7 +28,7 @@ Card.prototype.update = function() {
     //this.angle += this.rotateSpeed;
 
 };
-Card.prototype.sendToHand = function(compare_array,game) {
+Card.prototype.sendToHand = function(compare_array,game,command) {
 
     //this.angle += this.rotateSpeed;
 	var len  = 0;
@@ -72,7 +72,10 @@ var pos = 456 + ((z-1)*80);
 			}
 		}
 		tween.onComplete.add(function(){
-			game.setTurning(buf);
+			if(command && command === 'turn'){
+				game.setTurning(buf);
+			}
+			
 
 			buf.events.onInputDown.add(function(buf){buf.sendToFloor(this.player_cardHand,game);} , game);
 		});
