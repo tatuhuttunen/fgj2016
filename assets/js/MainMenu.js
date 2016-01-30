@@ -83,7 +83,7 @@ BasicGame.MainMenu.prototype = {
 
 
 		var parsedData = JSON.parse(jsonData);
-
+		console.log(parsedData, "hep");
 		
 		if(!parsedData) return;
 
@@ -156,7 +156,7 @@ BasicGame.MainMenu.prototype = {
 
 
 	},
-	sendEvent: function(type){
+	sendEvent: function(type,addinfo){
 
 
 		
@@ -170,7 +170,7 @@ BasicGame.MainMenu.prototype = {
 
 				eventType: type,
 				eventInfo: '',
-				card_id: ''
+				card_id: addinfo
 		
 			}}
 	
