@@ -11,18 +11,10 @@ BasicGame.MainMenu = function (game) {
 BasicGame.MainMenu.prototype = {
 
 
-	player_cardPack: new Array(),
-	opponent_cardPack: new Array(),
-
-	player_cardHand: new Array(),
-	opponent_cardHand: new Array(),
-
-	player_cardFloor: new Array(),
-	opponent_cardFloor: new Array(),
 
 
-	cardList: new Array(),
 
+	players: new Array(),
 
 	
 
@@ -36,13 +28,31 @@ BasicGame.MainMenu.prototype = {
 		//this.music.play();
 
 		//this.add.sprite(0, 0, 'titlepage');
-	
+		//this.players.splice(0,this.players.length);
+		this.players.push(new Player(this,0,0,'Player'));
+		this.players.push(new Player(this,0,0,'Opponent'));
+		var game = this;
+
 		for(var i = 0; i < 50; i++){
-			var buf = new Card(this,900, 300,"Stuba " + i ,'card_front');
+
+
+
+			var buf = new Card(this,900, 300,"Player " + i ,this.players[0],'card_front');
 			buf.inputEnabled = true;
 			buf.anchor.set(0.5);
-			buf.events.onInputDown.add(function(buf){buf.sendToHand(this.player_cardPack,this,'turn');} , this);
-			this.player_cardPack.push(buf);
+			buf.events.onInputDown.add(function(buf){buf.sendToHand(game.players[0].cardPack,this,'turn');} , this);
+			this.players[0].cardPack.push(buf);
+		}
+
+		for(var i = 0; i < 50; i++){
+
+
+			
+			var buf = new Card(this,100, 300,"Opponent " + i ,this.players[1],'card_front');
+			buf.inputEnabled = true;
+			buf.anchor.set(0.5);
+			buf.events.onInputDown.add(function(buf){buf.sendToHand(game.players[1].cardPack,this,'turn');} , this);
+			this.players[1].cardPack.push(buf);
 		}
 
 		//this.playButton = this.add.button(400, 600, 'playButton', this.startGame, this, 'buttonOver', 'buttonOut', 'buttonOver');
@@ -70,17 +80,16 @@ BasicGame.MainMenu.prototype = {
 		
 		
 */
-	for(var i = 0; i < this.player_cardPack.length; i++)
-		{
+		for(var i = 0; i < 50; i++)
+			{
 
-		
-			this.add.existing(this.player_cardPack[i]);
-		}
+			
+				this.add.existing(this.players[0].cardPack[i]);
+				this.add.existing(this.players[1].cardPack[i]);
+			}
 
 	},
-	test: function(){
-		console.log("test");
-	},
+	
 	changeImg: function(obj,textureName){
 
 
