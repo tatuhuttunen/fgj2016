@@ -6,9 +6,9 @@ BasicGame.Setup = function (game) {
 BasicGame.Setup.prototype = {
   create: function () {
     this.createGameButton = this.add.button(
-      this.world.centerX - 95,
-      400,
-      'frontcard_keerlo_himo',
+      this.world.centerX - 220,
+      350,
+      'host',
       this.createGame,
       this,
       2,
@@ -17,9 +17,9 @@ BasicGame.Setup.prototype = {
     );
 
     this.joinGameButton = this.add.button(
-      this.world.centerX + 95,
-      400,
-      'frontcard_keerlo_himo',
+      this.world.centerX + 50,
+      350,
+      'join',
       this.joinGame,
       this,
       2,

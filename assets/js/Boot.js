@@ -41,11 +41,13 @@ BasicGame.Boot.prototype = {
         //Card backs
         this.load.image('card', 'assets/card_back.png');
 
-
         //Card fronts
-          this.load.image('card_front', 'assets/cardFronts/card_front.png');
-
+        this.load.image('card_front', 'assets/cardFronts/card_front.png');
         this.load.image('frontcard_keerlo_himo', 'assets/cardFronts/keerlo_himo.png');
+		
+		//Menu buttons
+		this.load.image('host', 'assets/spritesheets/host_game.png');
+		this.load.image('join', 'assets/spritesheets/join_game.png');
         
     },
 
