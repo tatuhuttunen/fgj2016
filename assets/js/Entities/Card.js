@@ -8,7 +8,7 @@ Card = function (game, x, y, Name, Value, SpecialList) {
 
 	this.Specials = SpecialList || null;
 	this.turning = true;
-
+	this.frontName = 'frontcard_keerlo_himo';
 
 
 };
@@ -26,34 +26,3 @@ Card.prototype.update = function() {
     //this.angle += this.rotateSpeed;
 
 };
-Card.prototype.setTurning = function(){
-	setInterval(console.log("hddep")
-	, 60);
-}
-Card.prototype.cardTurn = function(){
-		
-		console.log("hep");
-		if(this.turning){
-			if(this.scale.x > 0){
-			this.scale.x -= 0.1;
-
-			}
-			if(this.scale.x === 0){
-				this.turning = false;
-			}
-		}
-		else{
-			if(this.scale.x < 1){
-				BasicGame.changeImg(this,'frontcard_keerlo_himo');
-				this.scale.x += 0.1;
-			
-			}
-			if(this.scale.x === 1){
-				this.turning = false;
-			}
-		}
-
-
-
-};
-		
