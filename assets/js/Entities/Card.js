@@ -13,6 +13,54 @@ Card = function (game, x, y, Name, upper, frontName,backName) {
 
 	this.id = (this.upper.cardPack.length + "PLAYER");
 	this.game = game;
+		if (Name == 'Stuba') {
+		this.health=5;
+		this.dmg=5;
+	}
+	else if (Name == 'Fuksi'){
+		this.health=1;
+		this.dmg=2;
+	}
+	else if (Name == 'Teekkari'){
+		this.health=3;
+		this.dmg=2;
+	}
+	else if (Name == 'Tuutori'){
+		this.health=2;
+		this.dmg=2;
+	}
+	else if (Name == 'FV'){
+		this.health=4;
+		this.dmg=3;
+	}
+	else if (Name == 'PJ'){
+		this.health=3;
+		this.dmg=2;
+	}
+	else if (Name == 'Kyykkaaja'){
+		this.health=2;
+		this.dmg=2;
+	}
+	else if (Name == 'Sammunut'){
+		this.health=1;
+		this.dmg=0;
+	}
+	else if (Name == 'N-fuksi'){
+		this.health=5;
+		this.dmg=4;
+	}
+	else if (Name == 'Koodari'){
+		this.health=3;
+		this.dmg=4;
+	}
+	else if (Name == 'Bussi'){
+		this.health=6;
+		this.dmg=2;
+	}
+	else if (Name == 'Ikiteekkari'){
+		this.health=7;
+		this.dmg=6;
+	}
 };
 
 
