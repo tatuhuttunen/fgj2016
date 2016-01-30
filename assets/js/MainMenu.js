@@ -125,19 +125,20 @@ BasicGame.MainMenu.prototype = {
 
 			if(parsedData.data.eventType === 'startGame'){
 
-				this.players[1].cardPack = parsedData.data.cardPackHost;
-				this.players[0].cardPack = parsedData.data.cardPackGuest;
 
-				for(var i = 0; i < this.players[0].cardPack.length; i++){
-					if(this.players[0].cardPack[i]){
-						this.players[0].cardPack.upper = this.players[0];
-					}
+				for(var i = 0; i < parsedData.data.cardPackHost.length; i++){
+
+					this.players[1].cardPack.push(new Card(this,100, 300,parsedData.data.cardPackHost[i].Name ,this.players[1],'card_front',null,parsedData.data.cardPackGuest[i].id););
+
 				}
-				for(var i = 0; i < this.players[1].cardPack.length; i++){
-					if(this.players[1].cardPack[i]){
-						this.players[1].cardPack.upper = this.players[1];
-					}
+
+				for(var i = 0; i < parsedData.data.cardPackGuest.length; i++){
+
+					this.players[0].cardPack.push(new Card(this,900, 300,parsedData.data.cardPackGuest[i].Name ,this.players[0],'card_front',null,parsedData.data.cardPackGuest[i].id););
+
 				}
+
+				
 		
 
 		
@@ -186,19 +187,34 @@ BasicGame.MainMenu.prototype = {
 	sendEvent: function(type,addinfo){
 
 		var game = this;
+		var guestArray = new Array();
+		var hostArray = new Array();
+
+		var saveObject = function(Name,frontName,id){
+
+		    this.Name = Name;
+		  
+
+			
+			this.frontName = frontName;
+			
+
+			this.id = id;
+			
+		};
 
 		for(var i = 0; i < this.players[0].cardPack.length; i++){
-			if(this.players[0].cardPack[i]){
-				this.players[0].cardPack.upper = null;
-			}
+
+			hostArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
 		}
 
 		for(var i = 0; i < this.players[1].cardPack.length; i++){
-			if(this.players[1].cardPack[i]){
-				this.players[1].cardPack.upper = null;
-			}
+			
+			guestArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
 		}
 
+
+		
 		if(type === 'gameStart'){
 			this.postEvent(
 			JSON.stringify({
@@ -210,8 +226,8 @@ BasicGame.MainMenu.prototype = {
 				eventType: type,
 				eventInfo: '',
 				card_id: addinfo,
-				cardPackHost: this.players[0].cardPack,
-				cardPackGuest: this.players[1].cardPack
+				cardPackHost: hostArray,
+				cardPackGuest: guestArray
 			}
 		}
 	
