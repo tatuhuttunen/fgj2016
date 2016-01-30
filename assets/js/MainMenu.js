@@ -20,6 +20,7 @@ BasicGame.MainMenu = function (game) {
 	this.music = null;
 	this.playButton = null;
   	this.sessionId = null;
+  	this.turn = 0;
 
 };
 
@@ -56,16 +57,22 @@ BasicGame.MainMenu.prototype = {
 
 	},
 	endTurn: function(playerData){
+
+		//player[0]
+		this.players[0].cardSelected = null;
+
 		for(var i = 0; i < 4; i++){
 
-			playerData.cardFloor[i].events.onInputDown.add(function(buf){buf.Targeted(game);} , game);
+			this.players[1].cardFloor[i].events.onInputDown.removeAll();
+			this.players[1].cardFloor[i].events.onInputDown.add(function(buf){buf.Targeted(game);} , game);
 
 		}
 	},
 	startTurn: function(playerData){
 		for(var i = 0; i < 4; i++){
 
-			playerData.cardFloor[i].events.onInputDown.removeAll();
+			this.players[0].cardFloor[i].events.onInputDown.removeAll();
+			this.players[0].cardFloor[i].events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , game);
 
 		}
 	},
@@ -197,6 +204,7 @@ BasicGame.MainMenu.prototype = {
 			buf.inputEnabled = true;
 			buf.anchor.set(0.5);
 			//buf.events.onInputDown.add(function(buf){buf.sendToHand(game.players[1].cardPack,this,'turn');} , this);
+			
 			this.players[1].cardPack.push(buf);
 		}
 
