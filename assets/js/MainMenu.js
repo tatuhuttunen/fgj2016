@@ -205,7 +205,7 @@ BasicGame.MainMenu.prototype = {
 		this.players.push(new Player(this,0,0,'Player'));
 		this.players.push(new Player(this,0,0,'Opponent'));
 		var game = this;
-    	this.postEvent('testData');
+    
 		for(var i = 0; i < 50; i++){
 
 
