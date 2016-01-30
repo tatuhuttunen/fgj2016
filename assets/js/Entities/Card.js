@@ -1,16 +1,18 @@
 //  Here is a custom game object
-Card = function (game, x, y, Name, Value, SpecialList) {
+Card = function (game, x, y, Name, frontName,backName) {
 
     Phaser.Sprite.call(this, game, x, y, 'card');
 
     this.Name = Name;
-    this.Value = Value;
+
 
     this.id = (game.player_cardPack.length + "PLAYER");
 
-	this.Specials = SpecialList || null;
+	
 	this.turning = true;
-	this.frontName = 'frontcard_keerlo_himo';
+
+	this.backName = backName || 'card_back';
+	this.frontName = frontName;
 	
 	this.game = game;
 };

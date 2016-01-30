@@ -38,7 +38,7 @@ BasicGame.MainMenu.prototype = {
 		//this.add.sprite(0, 0, 'titlepage');
 	
 		for(var i = 0; i < 50; i++){
-			var buf = new Card(this,900, 300,"Stuba " + i ,1);
+			var buf = new Card(this,900, 300,"Stuba " + i ,'card_front');
 			buf.inputEnabled = true;
 			buf.anchor.set(0.5);
 			buf.events.onInputDown.add(function(buf){buf.sendToHand(this.player_cardPack,this,'turn');} , this);
@@ -82,6 +82,8 @@ BasicGame.MainMenu.prototype = {
 		console.log("test");
 	},
 	changeImg: function(obj,textureName){
+
+
 		if(obj){
 			obj.loadTexture(textureName,0,false);
 		}
