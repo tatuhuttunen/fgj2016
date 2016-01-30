@@ -10,7 +10,7 @@ Player = function (game, x, y, Name) {
    
 
     this.cardFloor = new Array();
-  
+    this.cardSelected = null;  
 	this.game = game;
 };
 

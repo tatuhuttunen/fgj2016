@@ -1,3 +1,17 @@
+/*
+var eventJSON = {
+	playerId: '',
+	sessionId: '',
+	data: {
+
+		eventType: '',
+		eventInfo:'',
+		cardid: ''
+	}
+}*/
+
+
+
 
 
 
@@ -5,7 +19,7 @@ BasicGame.MainMenu = function (game) {
 
 	this.music = null;
 	this.playButton = null;
-  this.sessionId = null;
+  	this.sessionId = null;
 
 };
 
@@ -17,8 +31,139 @@ BasicGame.MainMenu.prototype = {
 
 	players: new Array(),
 
+	findCardById: function(playerData , cardId){
+
+		for(var i = 0;i < playerData.cardPack.length; i++){
+				if(playerData.cardPack[i].id === cardId){
+					return playerData.cardPack[i];
+				}
+
+			}
+			for(i = 0;i < playerData.cardHand.length; i++){
+				if(playerData.cardHand[i].id === cardId){
+					return playerData.cardHand[i];
+				}
+			}
+			for(i = 0;i < playerData.cardFloor.length; i++){
+				if(playerData.cardFloor[i].id === cardId){
+					return playerData.cardFloor[i];
+				}
+			}
+
+		
+
+	
+
+	},
+	endTurn: function(playerData){
+		for(var i = 0; i < 4; i++){
+
+			playerData.cardFloor[i].events.onInputDown.add(function(buf){buf.Targeted(game);} , game);
+
+		}
+	},
+	startTurn: function(playerData){
+		for(var i = 0; i < 4; i++){
+
+			playerData.cardFloor[i].events.onInputDown.removeAll();
+
+		}
+	},
+	getEvent: function(jsonData){
 
 
+		var parsedData = JSON.parse(jsonData);
+
+
+		if(!parsedData) return;
+
+		
+		if(playerId === BasicGame.playerId){
+			
+			if(parsedData.eventType === 'toHand'){
+				var card = findCardById(this.players[0] , parsedData.cardId);
+				if(parsedData.eventInfo === 'fromFloor'){
+					card.sendToHand(this.players[0].cardFloor,this);
+				}
+				else if(parsedData.eventInfo === 'fromPack'){
+					card.sendToHand(this.players[0].cardFloor,this,'turn');
+				}
+			}
+			else if(parsedData.eventType === 'toFloor'){
+
+				var card = findCardById(this.players[0] , parsedData.cardId);
+				
+				card.sendToFloor(this.players[0].cardHand,this);
+				
+				
+
+			}
+			else if(parsedData.eventType === 'endTurn'){
+
+
+
+			}
+			else if(parsedData.eventType === 'attackTo'){
+
+
+
+			}
+
+
+		}
+		else{
+			if(parsedData.eventType === 'toHand'){
+				var card = findCardById(this.players[1] , parsedData.cardId);
+				if(parsedData.eventInfo === 'fromFloor'){
+					card.sendToHand(this.players[1].cardFloor,this);
+				}
+				else if(parsedData.eventInfo === 'fromPack'){
+					card.sendToHand(this.players[1].cardFloor,this);
+				}
+			}
+			else if(parsedData.eventType === 'toFloor'){
+
+				var card = findCardById(this.players[1] , parsedData.cardId);
+				
+				card.sendToFloor(this.players[1].cardHand,this,'turn');
+
+			}
+			else if(parsedData.eventType === 'endTurn'){
+
+
+
+			}
+			else if(parsedData.eventType === 'attackTo'){
+
+
+
+			}
+		}
+
+
+		
+		
+
+
+	},
+	sendEvent: function(type){
+
+		if(type === 'toHand'){
+
+		}
+		else if(type === 'toFloor'){
+
+		}
+		else if(type === 'endTurn'){
+
+		}
+		else if(type === 'attackTo'){
+			
+		}
+
+
+
+	},
 	create: function () {
 		//	We've already preloaded our assets, so let's kick right into the Main Menu itself.
 		//	Here all we're doing is playing some music and adding a picture and button
@@ -51,7 +196,7 @@ BasicGame.MainMenu.prototype = {
 			var buf = new Card(this,100, 300,"Opponent " + i ,this.players[1],'card_front');
 			buf.inputEnabled = true;
 			buf.anchor.set(0.5);
-			buf.events.onInputDown.add(function(buf){buf.sendToHand(game.players[1].cardPack,this,'turn');} , this);
+			//buf.events.onInputDown.add(function(buf){buf.sendToHand(game.players[1].cardPack,this,'turn');} , this);
 			this.players[1].cardPack.push(buf);
 		}
 

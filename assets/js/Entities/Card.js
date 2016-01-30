@@ -4,11 +4,7 @@ Card = function (game, x, y, Name, upper, frontName,backName) {
     Phaser.Sprite.call(this, game, x, y, 'card');
 
     this.Name = Name;
-
-
-   
-
-	
+   	this.active = false;
 	this.turning = true;
 
 	this.backName = backName || 'card_back';
@@ -100,7 +96,19 @@ else{
 	
 
 };
-Card.prototype.sendToFloor = function(compare_array,game) {
+Card.prototype.selectAndAttack = function(game){
+
+
+	this.upper.cardSelected = this;
+
+
+};
+Card.prototype.targeted = function(game){
+
+	//resolve attacking	
+
+};
+Card.prototype.sendToFloor = function(compare_array,game,command) {
 
 	
     //this.angle += this.rotateSpeed;
@@ -152,7 +160,13 @@ Card.prototype.sendToFloor = function(compare_array,game) {
 		}
 		tween.onComplete.add(function(buf){
 		//	game.setTurning(buf);
-			buf.events.onInputDown.add(function(buf){buf.sendToHand(buf.upper.cardFloor,game);} , game);
+
+
+			if(command && command === 'turn'){
+				game.setTurning(buf);
+			}
+			buf.events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , game);
+			//buf.events.onInputDown.add(function(buf){buf.sendToHand(buf.upper.cardFloor,game);} , game);
 			
 		});
 		
