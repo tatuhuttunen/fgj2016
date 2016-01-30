@@ -85,9 +85,9 @@ BasicGame.MainMenu.prototype = {
 		var parsedData = JSON.parse(jsonData);
 	
 		
-		if(!parsedData) return;
+		if(!parsedData || !parseData.data || !parseData.data.eventType) return;
 
-
+	
 		if(parsedData.player_id === BasicGame.playerId){
 			
 			if(parsedData.data.eventType === 'toHand'){
