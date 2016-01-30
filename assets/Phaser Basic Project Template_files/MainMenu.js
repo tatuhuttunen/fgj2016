@@ -33,7 +33,7 @@ BasicGame.MainMenu.prototype = {
 			var buf = new Card(this,300+ (i*100), 0,"Stuba " + i ,1);
 			buf.inputEnabled = true;
 			buf.anchor.set(0.5);
-			buf.events.onInputDown.add(function(buf){buf.setTurning();} , this);
+			buf.events.onInputDown.add(function(buf){buf.cardTurn();} , this);
 			this.cardList.push(buf );
 
 		}
@@ -43,7 +43,7 @@ BasicGame.MainMenu.prototype = {
 			var buf = new Card(this,300+ (i*100), 500,"Stuba " + (i+5),1);
 			buf.inputEnabled = true;
 			buf.anchor.set(0.5);
-			buf.events.onInputDown.add(function(buf){buf.setTurning();} , this);
+			buf.events.onInputDown.add(function(buf){buf.cardTurn();} , this);
 			this.cardList.push(buf );
 
 		}

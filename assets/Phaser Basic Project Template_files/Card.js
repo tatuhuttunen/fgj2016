@@ -26,14 +26,15 @@ Card.prototype.update = function() {
     //this.angle += this.rotateSpeed;
 
 };
-Card.prototype.setTurning = function(){
-	setInterval(console.log("hddep")
-	, 60);
-}
+
 Card.prototype.cardTurn = function(){
 		
-		console.log("hep");
-		if(this.turning){
+
+
+		setInterval(function(){
+
+
+			if(this.turning){
 			if(this.scale.x > 0){
 			this.scale.x -= 0.1;
 
@@ -52,8 +53,19 @@ Card.prototype.cardTurn = function(){
 				this.turning = false;
 			}
 		}
+	
+		
 
+	
 
+	
+		
+	
+	
+	
+	
 
-};
+};, 60);
+
+	}
 		
