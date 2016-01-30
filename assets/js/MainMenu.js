@@ -19,10 +19,10 @@ BasicGame.MainMenu = function (game) {
 
 	this.music = null;
 	this.playButton = null;
-  this.sessionId = null;
-  this.counter = 0;
-  this.limit = 150;
-  this.eventsJSON = null;
+	  this.sessionId = null;
+	  this.counter = 0;
+	  this.limit = 150;
+	  this.eventsJSON = null;
 
 
 };
@@ -61,7 +61,7 @@ BasicGame.MainMenu.prototype = {
 	},
 	endTurn: function(playerData){
 
-		//player[0]
+	
 		this.players[0].cardSelected = null;
 
 		for(var i = 0; i < 4; i++){
@@ -84,22 +84,22 @@ BasicGame.MainMenu.prototype = {
 
 		var parsedData = JSON.parse(jsonData);
 
-
+		
 		if(!parsedData) return;
 
 
-		if(playerId === BasicGame.playerId){
+		if(parsedData.player_id === BasicGame.playerId){
 
-			if(parsedData.eventType === 'toHand'){
+			if(parsedData.data.eventType === 'toHand'){
 				var card = findCardById(this.players[0] , parsedData.cardId);
-				if(parsedData.eventInfo === 'fromFloor'){
+				if(parsedData.data.eventInfo === 'fromFloor'){
 					card.sendToHand(this.players[0].cardFloor,this);
 				}
-				else if(parsedData.eventInfo === 'fromPack'){
+				else if(parsedData.data.eventInfo === 'fromPack'){
 					card.sendToHand(this.players[0].cardFloor,this,'turn');
 				}
 			}
-			else if(parsedData.eventType === 'toFloor'){
+			else if(parsedData.data.eventType === 'toFloor'){
 
 				var card = findCardById(this.players[0] , parsedData.cardId);
 
@@ -123,7 +123,7 @@ BasicGame.MainMenu.prototype = {
 		}
 		else{
 			if(parsedData.eventType === 'toHand'){
-				var card = findCardById(this.players[1] , parsedData.cardId);
+				var card = findCardById(this.players[1] , parsedData.data.card_id);
 				if(parsedData.eventInfo === 'fromFloor'){
 					card.sendToHand(this.players[1].cardFloor,this);
 				}
@@ -133,7 +133,7 @@ BasicGame.MainMenu.prototype = {
 			}
 			else if(parsedData.eventType === 'toFloor'){
 
-				var card = findCardById(this.players[1] , parsedData.cardId);
+				var card = findCardById(this.players[1] , parsedData.data.card_id);
 
 				card.sendToFloor(this.players[1].cardHand,this,'turn');
 
@@ -158,8 +158,26 @@ BasicGame.MainMenu.prototype = {
 	},
 	sendEvent: function(type){
 
-		if(type === 'toHand'){
 
+		
+		if(type === 'toHand'){
+			this.postEvent(
+			JSON.stringify({
+
+			player_id: BasicGame.playerId,
+			sessionId: BasicGame.sessionId,
+			data: {
+
+				eventType: type,
+				eventInfo: '',
+				card_id: ''
+		
+			}}
+	
+				)
+			);
+
+			
 		}
 		else if(type === 'toFloor'){
 
@@ -187,7 +205,7 @@ BasicGame.MainMenu.prototype = {
 		this.players.push(new Player(this,0,0,'Player'));
 		this.players.push(new Player(this,0,0,'Opponent'));
 		var game = this;
-    this.postEvent('testData');
+    	this.postEvent('testData');
 		for(var i = 0; i < 50; i++){
 
 

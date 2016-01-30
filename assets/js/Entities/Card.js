@@ -87,7 +87,7 @@ else{
 				game.setTurning(buf);
 			}
 			
-
+			game.sendEvent('toHand');
 			buf.events.onInputDown.add(function(buf){buf.sendToFloor(buf.upper.cardHand,game);} , game);
 		});
 		
