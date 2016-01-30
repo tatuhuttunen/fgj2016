@@ -170,6 +170,7 @@ BasicGame.MainMenu.prototype = {
 	},
 	sendEvent: function(type,addinfo){
 
+		var game = this;
 		if(type === 'gameStart'){
 			this.postEvent(
 			JSON.stringify({
@@ -181,9 +182,10 @@ BasicGame.MainMenu.prototype = {
 				eventType: type,
 				eventInfo: '',
 				card_id: addinfo,
-				cardPackHost: this.players[0].cardPack,
-				cardPackGuest: this.player[1].cardPack
-			}}
+				cardPackHost: game.players[0].cardPack,
+				cardPackGuest: game.players[1].cardPack
+			}
+		}
 	
 				)
 			);
