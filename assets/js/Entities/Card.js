@@ -31,26 +31,50 @@ Card.prototype.update = function() {
 Card.prototype.sendToHand = function(compare_array,game) {
 
     //this.angle += this.rotateSpeed;
-    var len = game.player_cardHand.length;
+	var len  = 0;
+    for(var b = 0; b < 5; b++){
+    	if(game.player_cardHand[b]){
+
+    		len++;
+    	}
+
+
+    }
+  
     var buf = this;
 
+
+    //Check available slot
+  
+    for(var z = 0; z < 5; z++){
+
+    	if(!game.player_cardHand[z]){
+
+    		game.player_cardHand[z] = this;
+    	
+    		break;
+    	}
+
+    }
+
+  console.log(z + " hep");
     //1024 / 2, 512 /2, 256 + (5*80)
-	var pos = 656 - (len*80);
+var pos = 456 + ((z-1)*80);
 
     if(len < 5){
     	var tween = game.add.tween(this).to({ x: pos, y: 500 },1500,Phaser.Easing.Exponential.Out, true);
     	this.events.onInputDown.removeAll();
 		for(var i = 0; i < compare_array.length; i++){
-			if(compare_array[i].Name === this.Name){
-				game.player_cardPack.splice(i,1);
-				game.player_cardHand.push(this);
+			if(compare_array[i] && compare_array[i].Name === this.Name){
+				compare_array[i] = null;
+				
 				break;
 			}
 		}
 		tween.onComplete.add(function(){
 			game.setTurning(buf);
 
-			buf.events.onInputDown.add(function(buf){buf.sendToFloor(game.player_cardHand,game);} , game);
+			buf.events.onInputDown.add(function(buf){buf.sendToFloor(this.player_cardHand,game);} , game);
 		});
 		
     }
@@ -62,19 +86,37 @@ Card.prototype.sendToFloor = function(compare_array,game) {
 
 	
     //this.angle += this.rotateSpeed;
-    var len = game.player_cardFloor.length;
+    var len  = 0;
+    for(var b = 0; b < 5; b++){
+    	if(game.player_cardFloor[b]){
+
+    		len++;
+    	}
+
+
+    }
     var buf = this;
 //	game.setTurning(buf,'firstImg');
     //1024 / 2, 512 /2, 256 + (5*80)
-	var pos = 656 - (len*80);
-	console.log(pos);
-    if(len < 5){
+	    for(var z = 0; z < 4; z++){
+
+    	if(!game.player_cardFloor[z]){
+    		game.player_cardFloor[z] = this;
+    		break;
+    	}
+
+    }
+
+    //1024 / 2, 512 /2, 256 + (5*80)
+	var pos = 456 + ((z-1)*80);
+
+    if(len < 4){
     	var tween = game.add.tween(this).to({ x: pos, y: 350 },1500,Phaser.Easing.Exponential.Out, true);
     	this.events.onInputDown.removeAll();
 		for(var i = 0; i < compare_array.length; i++){
-			if(compare_array[i].Name === this.Name){
-				game.player_cardHand.splice(i,1);
-				game.player_cardFloor.push(this);
+			if(compare_array[i] && compare_array[i].Name === this.Name){
+				compare_array[i] = null;
+				
 				break;
 			}
 		}
