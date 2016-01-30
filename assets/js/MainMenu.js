@@ -190,7 +190,8 @@ BasicGame.MainMenu.prototype = {
 		var guestArray = new Array();
 		var hostArray = new Array();
 
-		var saveObject = function(Name,frontName,id){
+		if(type === 'gameStart'){
+			var saveObject = function(Name,frontName,id){
 
 		    this.Name = Name;
 		  
@@ -201,17 +202,19 @@ BasicGame.MainMenu.prototype = {
 
 			this.id = id;
 			
-		};
+			};
 
-		for(var i = 0; i < this.players[0].cardPack.length; i++){
+			for(var i = 0; i < this.players[0].cardPack.length; i++){
 
-			hostArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
+				hostArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
+			}
+
+			for(var i = 0; i < this.players[1].cardPack.length; i++){
+				
+				guestArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
+			}
 		}
-
-		for(var i = 0; i < this.players[1].cardPack.length; i++){
-			
-			guestArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
-		}
+		
 
 
 		
