@@ -43,7 +43,7 @@ BasicGame.Boot.prototype = {
 
 
         //Card fronts
-        this.load.image('frontcard_keerlo_himo', 'assets/cardFronts/keerlo_himo.png')
+        this.load.image('frontcard_keerlo_himo', 'assets//keerlo_himo.png')
         
     },
 
