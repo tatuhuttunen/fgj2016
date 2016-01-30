@@ -43,7 +43,6 @@ BasicGame.Setup.prototype = {
     var sessionId = 'ABCDE';
     BasicGame.sessionId = sessionId;
     BasicGame.playerId = 'host';
-    console.log(API_URL);
     $.ajax({
       type: "POST",
       url: API_URL + '?action=creategame',
@@ -51,7 +50,6 @@ BasicGame.Setup.prototype = {
         "sessionId": sessionId
       },
       success: function(data){
-        console.log(data);
         setupInstance.startGame();
       },
     });
@@ -70,7 +68,8 @@ BasicGame.Setup.prototype = {
       success: function(data){
         if (data === 'error')
         {
-          setupInstance.joinGame();
+          alert('Game not available!');
+          this.state.start('MainMenu');
         }
         else
         {
