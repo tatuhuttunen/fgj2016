@@ -83,12 +83,12 @@ BasicGame.MainMenu.prototype = {
 
 
 		var parsedData = JSON.parse(jsonData);
-	
-		
-		if(!parsedData || !parsedData.data || !parsedData.data.eventType) return;
 
+			console.log(parsedData,"heppi");
+		if(!parsedData || !parsedData.data || !parsedData.data.eventType) return;
 	
-		if(parsedData.player_id === BasicGame.playerId){
+		console.log(parsedData.data.player_id);
+		if(parsedData.data.player_id == BasicGame.playerId){
 			
 			if(parsedData.data.eventType === 'toHand'){
 				var card = findCardById(this.players[0] , parsedData.cardId);
@@ -222,16 +222,14 @@ BasicGame.MainMenu.prototype = {
 			this.postEvent(
 			JSON.stringify({
 
-			player_id: BasicGame.playerId,
-			sessionId: BasicGame.sessionId,
-			data: {
+			
 
-				eventType: type,
-				eventInfo: '',
-				card_id: addinfo,
-				cardPackHost: hostArray,
-				cardPackGuest: guestArray
-			}
+			eventType: type,
+			eventInfo: '',
+			card_id: addinfo,
+			cardPackHost: hostArray,
+			cardPackGuest: guestArray
+			
 		}
 	
 				)
@@ -242,16 +240,14 @@ BasicGame.MainMenu.prototype = {
 			this.postEvent(
 			JSON.stringify({
 
-			player_id: BasicGame.playerId,
-			sessionId: BasicGame.sessionId,
-			data: {
+	
 
 				eventType: type,
 				eventInfo: '',
 				card_id: addinfo
 				
 		
-			}}
+			}
 	
 				)
 			);
