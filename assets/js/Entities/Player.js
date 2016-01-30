@@ -15,14 +15,14 @@ Player = function (game, x, y, Name) {
 };
 
 
-Card.prototype = Object.create(Phaser.Sprite.prototype);
-Card.prototype.constructor = Card;
+Player.prototype = Object.create(Phaser.Sprite.prototype);
+Player.prototype.constructor = Player;
 
 
 /**
  * Automatically called by World.update
  */
-Card.prototype.update = function() {
+Player.prototype.update = function() {
 
     //this.angle += this.rotateSpeed;
 
