@@ -85,36 +85,35 @@ BasicGame.MainMenu.prototype = {
 		var parsedData = JSON.parse(jsonData);
 
 		console.log(parsedData,"heppi");
-
-		if(!parsedData || !parsedData.data || !parsedData.data.eventType) return;
-
-		console.log(parsedData.data.player_id);
-		if(parsedData.data.player_id == BasicGame.playerId){
+		var eitoimi = parsedData.length-1;
+		if(!parsedData || !parsedData[eitoimi].data || !parsedData[eitoimi].data.eventType) return;
+		
+		if(parsedData[eitoimi].playerId == BasicGame.playerId){
 			
-			if(parsedData.data.eventType === 'toHand'){
-				var card = findCardById(this.players[0] , parsedData.cardId);
-				if(parsedData.data.eventInfo === 'fromFloor'){
-					card.sendToHand(this.players[0].cardFloor,this);
+			if(parsedData[eitoimi].data.eventType === 'toHand'){
+				var card = this.findCardById(this.players[0] , parsedData[eitoimi].cardId);
+				if(parsedData[eitoimi].data.eventInfo === 'fromFloor'){
+					card.sendToHand(this.players[0].cardFloor,this,null,"host");
 				}
-				else if(parsedData.data.eventInfo === 'fromPack'){
+				else if(parsedData[eitoimi].data.eventInfo === 'fromPack'){
 					card.sendToHand(this.players[0].cardFloor,this,'turn');
 				}
 			}
-			else if(parsedData.data.eventType === 'toFloor'){
+			else if(parsedData[eitoimi].data.eventType === 'toFloor'){
 
-				var card = findCardById(this.players[0] , parsedData.cardId);
+				var card = this.findCardById(this.players[0] , parsedData[0].cardId);
 
 				card.sendToFloor(this.players[0].cardHand,this);
 
 
 
 			}
-			else if(parsedData.eventType === 'endTurn'){
+			else if(parsedData[eitoimi].data.eventType === 'endTurn'){
 
 
 
 			}
-			else if(parsedData.eventType === 'attackTo'){
+			else if(parsedData[eitoimi].data.eventType === 'attackTo'){
 
 
 
@@ -123,19 +122,19 @@ BasicGame.MainMenu.prototype = {
 
 		}
 		else{
+	console.log(parsedData[eitoimi],"heivaan");
+			if(parsedData[eitoimi].data.eventType === 'gameStart'){
 
-			if(parsedData.data.eventType === 'startGame'){
+	console.log("dddddheivaan");
+				for(var i = 0; i < parsedData[eitoimi].data.cardPackHost.length; i++){
 
-
-				for(var i = 0; i < parsedData.data.cardPackHost.length; i++){
-
-					this.players[1].cardPack.push(new Card(this,100, 300,parsedData.data.cardPackHost[i].Name ,this.players[1],'card_front',null,parsedData.data.cardPackGuest[i].id));
+					this.players[1].cardPack.push(new Card(this,100, 300,parsedData[eitoimi].data.cardPackHost[i].Name ,this.players[1],'card_front',null,parsedData[eitoimi].data.cardPackGuest[i].id));
 
 				}
 
-				for(var i = 0; i < parsedData.data.cardPackGuest.length; i++){
+				for(var i = 0; i < parsedData[eitoimi].data.cardPackGuest.length; i++){
 
-					this.players[0].cardPack.push(new Card(this,900, 300,parsedData.data.cardPackGuest[i].Name ,this.players[0],'card_front',null,parsedData.data.cardPackGuest[i].id));
+					this.players[0].cardPack.push(new Card(this,900, 300,parsedData[eitoimi].data.cardPackGuest[i].Name ,this.players[0],'card_front',null,parsedData[eitoimi].data.cardPackGuest[i].id));
 
 				}
 
@@ -151,28 +150,30 @@ BasicGame.MainMenu.prototype = {
 				}
 
 			}
-			else if(parsedData.eventType === 'toHand'){
-				var card = findCardById(this.players[1] , parsedData.data.card_id);
-				if(parsedData.eventInfo === 'fromFloor'){
-					card.sendToHand(this.players[1].cardFloor,this);
-				}
-				else if(parsedData.eventInfo === 'fromPack'){
-					card.sendToHand(this.players[1].cardFloor,this);
-				}
-			}
-			else if(parsedData.eventType === 'toFloor'){
+			else if(parsedData[eitoimi].data.eventType === 'toHand'){
+				var card = this.findCardById(this.players[1] , parsedData[eitoimi].data.card_id);
 
-				var card = findCardById(this.players[1] , parsedData.data.card_id);
+				card.sendToHand(this.players[1].cardFloor,this,null,"host");
+				/*if(parsedData[eitoimi].data.eventInfo === 'fromFloor'){
+					card.sendToHand(this.players[1].cardFloor,this);
+				}
+				else if(parsedData[eitoimi].data.eventInfo === 'fromPack'){
+					card.sendToHand(this.players[1].cardFloor,this);
+				}*/
+			}
+			else if(parsedData[eitoimi].data.eventType === 'toFloor'){
+
+				var card = this.findCardById(this.players[1] , parsedData[eitoimi].data.card_id);
 
 				card.sendToFloor(this.players[1].cardHand,this,'turn');
 
 			}
-			else if(parsedData.eventType === 'endTurn'){
+			else if(parsedData[eitoimi].data.eventType === 'endTurn'){
 
 
 
 			}
-			else if(parsedData.eventType === 'attackTo'){
+			else if(parsedData[eitoimi].data.eventType === 'attackTo'){
 
 
 
