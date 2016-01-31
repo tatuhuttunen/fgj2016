@@ -57,6 +57,7 @@ BasicGame.Boot.prototype = {
         this.load.image('typera_fuksi', 'assets/cardFronts/typera_fuksi.png');
 
 		//Menu buttons
+        this.load.image('end', 'assets/spritesheets/end_turn.png');
 		this.load.image('host', 'assets/spritesheets/host_game.png');
 		this.load.image('join', 'assets/spritesheets/join_game.png');
 
