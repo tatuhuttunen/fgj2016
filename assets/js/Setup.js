@@ -5,6 +5,8 @@ BasicGame.Setup = function (game) {
 
 BasicGame.Setup.prototype = {
   create: function () {
+    this.background = this.game.add.tileSprite(0, 0, 1024, 720, "background");
+    console.log("que");
     this.createGameButton = this.add.button(
       this.world.centerX - 220,
       350,

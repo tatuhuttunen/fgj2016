@@ -37,7 +37,8 @@ BasicGame.Boot.prototype = {
         //this.load.image('preloaderBackground', 'images/preloader_background.jpg');
         //this.load.image('preloaderBar', 'images/preloadr_bar.png');
 
-
+        //Background
+        this.load.image('background', "assets/background.jpg");
         //Card backs
         this.load.image('card', 'assets/card_back.png');
 
