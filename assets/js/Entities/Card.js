@@ -7,7 +7,7 @@ Card = function (game, x, y, Name, upper, frontName,backName,id) {
    	this.active = false;
 	this.turning = true;
 
-	this.backName = backName || 'card_back';
+	this.backName = backName || 'card';
 	this.frontName = frontName;
 	this.upper = upper;
 
