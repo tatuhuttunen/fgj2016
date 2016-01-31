@@ -408,6 +408,12 @@ BasicGame.MainMenu.prototype = {
     });
   },
 
+  fight: function (card1, card2) {
+		card1.health -= card2.dmg;
+		card2.health -= card1.dmg;
+		//return [card1,card2];
+	}
+
   getEvents: function() {
     instance = this;
     $.ajax({
