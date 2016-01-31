@@ -39,18 +39,18 @@ BasicGame.MainMenu.prototype = {
 	findCardById: function(playerData , cardId){
 
 		for(var i = 0;i < playerData.cardPack.length; i++){
-				if(playerData.cardPack[i].id === cardId){
+				if(playerData.cardPack[i] && playerData.cardPack[i].id === cardId){
 					return playerData.cardPack[i];
 				}
 
 			}
 			for(i = 0;i < playerData.cardHand.length; i++){
-				if(playerData.cardHand[i].id === cardId){
+				if(playerData.cardPack[i] && playerData.cardHand[i].id === cardId){
 					return playerData.cardHand[i];
 				}
 			}
 			for(i = 0;i < playerData.cardFloor.length; i++){
-				if(playerData.cardFloor[i].id === cardId){
+				if(playerData.cardPack[i] && playerData.cardFloor[i].id === cardId){
 					return playerData.cardFloor[i];
 				}
 			}
@@ -81,14 +81,17 @@ BasicGame.MainMenu.prototype = {
 		}
 	},
 	getEvent: function(parsedData){
+		console.log(parsedData.data.eventType,"pilumaximus");
+
 		if(!parsedData || !parsedData.data || !parsedData.data.eventType) return;
 
 		if(parsedData.playerId == BasicGame.playerId){
 
 			if(parsedData.data.eventType === 'toHand'){
 				var card = this.findCardById(this.players[0] , parsedData.cardId);
+			//	card.sendToHand(this.players[0].cardFloor,this,null,"host");
 				if(parsedData.data.eventInfo === 'fromFloor'){
-					card.sendToHand(this.players[0].cardFloor,this,null,"host");
+					
 				}
 				else if(parsedData.data.eventInfo === 'fromPack'){
 					card.sendToHand(this.players[0].cardFloor,this,'turn');
@@ -177,7 +180,7 @@ BasicGame.MainMenu.prototype = {
 		var game = this;
 		var guestArray = new Array();
 		var hostArray = new Array();
-			console.log("heppimaximus");
+			console.log(type,"heppimaximus");
 		if(type === 'gameStart'){
 			var saveObject = function(Name,frontName,id){
 
@@ -376,11 +379,11 @@ BasicGame.MainMenu.prototype = {
 	},
 	update: function () {
     this.counter++;
-    if (this.counter >= this.limit)
-    {
-      this.counter = 0;
-      this.getEvents();
-    }
+	    if (this.counter >= this.limit)
+	    {
+	      this.counter = 0;
+	      this.getEvents();
+	    }
 	},
 
 	startGame: function (pointer) {
@@ -412,7 +415,7 @@ BasicGame.MainMenu.prototype = {
 		card1.health -= card2.dmg;
 		card2.health -= card1.dmg;
 		//return [card1,card2];
-	}
+	},
 
   getEvents: function() {
     instance = this;
@@ -432,13 +435,16 @@ BasicGame.MainMenu.prototype = {
     var parsedData = JSON.parse(data);
     if(this.latestHandledEvent === null) {
       this.getEvent(parsedData[0]);
+       console.log("tdäs");
       this.latestHandledEvent = 0;
     }
     var i = this.latestHandledEvent + 1;
     for (i; i < parsedData.length; i++) {
       this.getEvent(parsedData[i]);
+      console.log(i,"täs");
       this.latestHandledEvent = i;
     }
+
   }
 
 

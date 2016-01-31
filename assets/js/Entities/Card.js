@@ -108,7 +108,7 @@ Card.prototype.sendToHand = function(compare_array,game,command,playerName) {
 
 var xpos = 456 + ((z-1)*80);
 var ypos = 0;
-	if(playerName &&playerName == "host" ){
+	if(playerName && playerName == "host" ){
 
 	    //1024 / 2, 512 /2, 256 + (5*80)
 	  	ypos = 100;
@@ -135,7 +135,10 @@ var ypos = 0;
 				game.setTurning(buf);
 			}
 			
-			game.sendEvent('toHand',buf.id);
+			if(playerName !== "host"){
+				game.sendEvent('toHand',buf.id);
+			}
+		
 			buf.events.onInputDown.add(function(buf){buf.sendToFloor(buf.upper.cardHand,game);} , game);
 		});
 		
