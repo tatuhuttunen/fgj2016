@@ -107,8 +107,12 @@ BasicGame.MainMenu.prototype = {
 
 		for(var i = 0; i < 4; i++){
 
-			this.players[0].cardFloor[i].events.onInputDown.removeAll();
-			this.players[0].cardFloor[i].events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , this);
+
+			if(this.player[0].cardFloor[i]){
+				this.players[0].cardFloor[i].events.onInputDown.removeAll();
+				this.players[0].cardFloor[i].events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , this);
+			}
+			
 
 		}
 
