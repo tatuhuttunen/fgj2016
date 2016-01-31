@@ -191,7 +191,7 @@ BasicGame.MainMenu.prototype = {
 		var game = this;
 		var guestArray = new Array();
 		var hostArray = new Array();
-
+			console.log("heppimaximus");
 		if(type === 'gameStart'){
 			var saveObject = function(Name,frontName,id){
 
