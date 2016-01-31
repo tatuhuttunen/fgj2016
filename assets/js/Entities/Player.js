@@ -11,6 +11,7 @@ Player = function (game, x, y, Name) {
 
     this.cardFloor = new Array();
     this.cardSelected = null;  
+    this.targetCard = null;
 	this.game = game;
 };
 

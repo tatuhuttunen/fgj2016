@@ -110,6 +110,7 @@ BasicGame.MainMenu.prototype = {
 
 			if(this.players[0].cardFloor[i]){
 				this.players[0].cardFloor[i].events.onInputDown.removeAll();
+
 			}
 		}
 
@@ -168,8 +169,22 @@ BasicGame.MainMenu.prototype = {
 
 		}
 
+		for(var i = 0; i < 4; i++){
+
+			if(this.players[1].cardFloor[i]){
+				var buf = this.players[1].cardFloor[i];
+				buf.events.onInputDown.removeAll();
+				buf.inputEnabled = true;
+				buf.events.onInputDown.add(function(buf){buf.targeted(game);} , this);
+
+			}
+
+
+		}
+
 
 	},
+	
 	getEvent: function(parsedData){
 
 

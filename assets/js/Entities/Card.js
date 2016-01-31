@@ -81,7 +81,7 @@ Card.prototype.sendToHand = function(compare_array,game,command,playerName,handl
 	this.events.onInputDown.removeAll();
     //this.angle += this.rotateSpeed;
 	var len  = 0;
-    for(var b = 0; b < 5; b++){
+    for(var b = 0; b < 6; b++){
     	if(this.upper.cardHand[b]){
 
     		len++;
@@ -161,6 +161,14 @@ Card.prototype.selectAndAttack = function(game){
 Card.prototype.targeted = function(game){
 
 	//resolve attacking	
+	if(this.upper.cardSelected){
+		this.upper.targetCard = this;
+		this.fight(this.upper.cardSelected,this.upper.targetCard);
+	}
+	
+
+	this.upper.cardSelected = null;  
+    this.upper.targetCard = null;
 
 };
 Card.prototype.sendToFloor = function(compare_array,game,command,playerName,handlingEvent) {
@@ -190,7 +198,7 @@ Card.prototype.sendToFloor = function(compare_array,game,command,playerName,hand
     	}
 
     }
-
+    console.log(this.upper.cardHand.length);
     //1024 / 2, 512 /2, 256 + (5*80)
 	var xpos = 456 + ((z-1)*80);
 	var ypos = 0;
@@ -229,7 +237,7 @@ Card.prototype.sendToFloor = function(compare_array,game,command,playerName,hand
 				game.sendEvent('toFloor',buf.id);
 			}
 
-			//buf.events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , game);
+			buf.events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , game);
 			//buf.events.onInputDown.add(function(buf){buf.sendToHand(buf.upper.cardFloor,game);} , game);
 			
 		});
