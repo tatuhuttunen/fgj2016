@@ -45,12 +45,12 @@ BasicGame.MainMenu.prototype = {
 
 			}
 			for(i = 0;i < playerData.cardHand.length; i++){
-				if(playerData.cardPack[i] && playerData.cardHand[i].id === cardId){
+				if(playerData.cardHand[i] && playerData.cardHand[i].id === cardId){
 					return playerData.cardHand[i];
 				}
 			}
 			for(i = 0;i < playerData.cardFloor.length; i++){
-				if(playerData.cardPack[i] && playerData.cardFloor[i].id === cardId){
+				if(playerData.cardFloor[i] && playerData.cardFloor[i].id === cardId){
 					return playerData.cardFloor[i];
 				}
 			}
@@ -289,7 +289,7 @@ BasicGame.MainMenu.prototype = {
     	if(BasicGame.playerId === "host"){
 
 
-    		for(var i = 0; i < 50; i++){
+    		for(var i = 0; i < 20; i++){
 
 
 
@@ -300,7 +300,7 @@ BasicGame.MainMenu.prototype = {
 			this.players[0].cardPack.push(buf);
 			}
 
-			for(var i = 0; i < 50; i++){
+			for(var i = 0; i < 20; i++){
 
 
 
