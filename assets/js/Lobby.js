@@ -6,22 +6,23 @@ BasicGame.Lobby = function (game) {
 
 BasicGame.Lobby.prototype = {
   create: function () {
+    this.background = this.game.add.tileSprite(0, 0, 1024, 720, "background");
     this.add.text(
       this.world.centerX - 200,
       80,
       'Waiting for opponent',
       {
         "font": '50px Calibri',
-        "fill": '#ffffff'
+        "fill": '#cc0000'
       });
 
     this.add.text(
-      this.world.centerX - 70,
+      this.world.centerX - 85,
       this.world.centerY - 20,
       'ID:' + BasicGame.sessionId,
       {
         "font": '50px Calibri',
-        "fill": '#ffffff'
+        "fill": '#cc0000'
       });
      var wKey = this.input.keyboard.addKey(Phaser.Keyboard.W);
      wKey.onDown.addOnce(function () {this.state.start('MainMenu')}, this);
