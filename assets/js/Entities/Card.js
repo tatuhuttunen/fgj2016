@@ -76,7 +76,7 @@ Card.prototype.update = function() {
     //this.angle += this.rotateSpeed;
 
 };
-Card.prototype.sendToHand = function(compare_array,game,command,playerName) {
+Card.prototype.sendToHand = function(compare_array,game,command,playerName,handlingEvent) {
 
 
     //this.angle += this.rotateSpeed;
@@ -135,11 +135,11 @@ var ypos = 0;
 				game.setTurning(buf);
 			}
 			
-			if(playerName !== "host"){
+			if(!handlingEvent){
 				game.sendEvent('toHand',buf.id);
 			}
 		
-			buf.events.onInputDown.add(function(buf){buf.sendToFloor(buf.upper.cardHand,game);} , game);
+			buf.events.onInputDown.add(function(buf){buf.sendToFloor(buf.upper.cardHand,game,null,"host");} , game);
 		});
 		
     }
@@ -187,14 +187,14 @@ Card.prototype.sendToFloor = function(compare_array,game,command,playerName) {
     //1024 / 2, 512 /2, 256 + (5*80)
 	var xpos = 456 + ((z-1)*80);
 	var ypos = 0;
-		if(playerName &&playerName == "host" ){
+	if(playerName && playerName == "host" ){
 
 	    //1024 / 2, 512 /2, 256 + (5*80)
-	  	ypos = 100;
+	  	ypos = 300;
 	}
 	else{
 
-		ypos = 600;
+		ypos = 400;
 
 	}
 
@@ -216,6 +216,11 @@ Card.prototype.sendToFloor = function(compare_array,game,command,playerName) {
 			if(command && command === 'turn'){
 				game.setTurning(buf);
 			}
+
+			if(!handlingEvent){
+				game.sendEvent('toFloor',buf.id);
+			}
+
 			buf.events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , game);
 			//buf.events.onInputDown.add(function(buf){buf.sendToHand(buf.upper.cardFloor,game);} , game);
 			

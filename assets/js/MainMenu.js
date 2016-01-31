@@ -94,7 +94,7 @@ BasicGame.MainMenu.prototype = {
 					
 				}
 				else if(parsedData.data.eventInfo === 'fromPack'){
-					card.sendToHand(this.players[0].cardFloor,this,'turn');
+					card.sendToHand(this.players[0].cardFloor,this,null,"host",true);
 				}
 			}
 			else if(parsedData.data.eventType === 'toFloor'){
@@ -148,7 +148,7 @@ BasicGame.MainMenu.prototype = {
 			else if(parsedData.data.eventType === 'toHand'){
 				var card = this.findCardById(this.players[1] , parsedData.data.card_id);
 
-				card.sendToHand(this.players[1].cardFloor,this,null,"host");
+				card.sendToHand(this.players[1].cardFloor,this,null,"host",true);
 			}
 			else if(parsedData.data.eventType === 'toFloor'){
 
@@ -180,7 +180,7 @@ BasicGame.MainMenu.prototype = {
 		var game = this;
 		var guestArray = new Array();
 		var hostArray = new Array();
-			console.log(type,"heppimaximus");
+		
 		if(type === 'gameStart'){
 			var saveObject = function(Name,frontName,id){
 
@@ -246,7 +246,20 @@ BasicGame.MainMenu.prototype = {
 
 		}
 		else if(type === 'toFloor'){
+			this.postEvent(
 
+
+
+			{
+				eventType: type,
+				eventInfo: '',
+				card_id: addinfo
+
+
+			}
+
+
+			);
 		}
 		else if(type === 'endTurn'){
 
