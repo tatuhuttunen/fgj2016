@@ -108,7 +108,7 @@ BasicGame.MainMenu.prototype = {
 		for(var i = 0; i < 4; i++){
 
 
-			if(this.player[0].cardFloor[i]){
+			if(this.players[0].cardFloor[i]){
 				this.players[0].cardFloor[i].events.onInputDown.removeAll();
 				this.players[0].cardFloor[i].events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , this);
 			}
