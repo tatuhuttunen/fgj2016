@@ -28,7 +28,7 @@ Card.prototype.update = function() {
     //this.angle += this.rotateSpeed;
 
 };
-Card.prototype.sendToHand = function(compare_array,game,command) {
+Card.prototype.sendToHand = function(compare_array,game,command,playerName) {
 
 
     //this.angle += this.rotateSpeed;
@@ -60,16 +60,16 @@ Card.prototype.sendToHand = function(compare_array,game,command) {
 
 var xpos = 456 + ((z-1)*80);
 var ypos = 0;
-if(this.Name.indexOf("Player") > -1){
+	if(playerName &&playerName == "host" ){
 
-    //1024 / 2, 512 /2, 256 + (5*80)
-  	ypos = 600;
-}
-else{
+	    //1024 / 2, 512 /2, 256 + (5*80)
+	  	ypos = 100;
+	}
+	else{
 
-	ypos = 100;
+		ypos = 600;
 
-}
+	}
 
 
     if(len < 5){
@@ -108,7 +108,7 @@ Card.prototype.targeted = function(game){
 	//resolve attacking	
 
 };
-Card.prototype.sendToFloor = function(compare_array,game,command) {
+Card.prototype.sendToFloor = function(compare_array,game,command,playerName) {
 
 	
     //this.angle += this.rotateSpeed;
@@ -136,14 +136,14 @@ Card.prototype.sendToFloor = function(compare_array,game,command) {
     //1024 / 2, 512 /2, 256 + (5*80)
 	var xpos = 456 + ((z-1)*80);
 	var ypos = 0;
-	if(this.Name.indexOf("Player") > -1){
+		if(playerName &&playerName == "host" ){
 
 	    //1024 / 2, 512 /2, 256 + (5*80)
-	  	ypos = 350;
+	  	ypos = 100;
 	}
 	else{
 
-		ypos = 250;
+		ypos = 600;
 
 	}
 
