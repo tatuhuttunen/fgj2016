@@ -159,7 +159,7 @@ Card.prototype.targeted = function(game){
 	//resolve attacking	
 
 };
-Card.prototype.sendToFloor = function(compare_array,game,command,playerName) {
+Card.prototype.sendToFloor = function(compare_array,game,command,playerName,handlingEvent) {
 
 	
     //this.angle += this.rotateSpeed;

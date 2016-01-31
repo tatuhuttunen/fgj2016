@@ -101,7 +101,7 @@ BasicGame.MainMenu.prototype = {
 
 				var card = this.findCardById(this.players[0] , parsedData[0].cardId);
 
-				card.sendToFloor(this.players[0].cardHand,this);
+				card.sendToFloor(this.players[0].cardHand,this,null,"host",true);
 
 
 
@@ -154,7 +154,7 @@ BasicGame.MainMenu.prototype = {
 
 				var card = this.findCardById(this.players[1] , parsedData.data.card_id);
 
-				card.sendToFloor(this.players[1].cardHand,this,'turn');
+				card.sendToFloor(this.players[1].cardHand,this,'turn',"host",true);
 
 			}
 			else if(parsedData.data.eventType === 'endTurn'){
