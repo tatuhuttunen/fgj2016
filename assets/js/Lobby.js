@@ -6,6 +6,7 @@ BasicGame.Lobby = function (game) {
 
 BasicGame.Lobby.prototype = {
   create: function () {
+    this.background = this.game.add.tileSprite(0, 0, 1024, 720, "background");
     this.add.text(
       this.world.centerX - 200,
       80,

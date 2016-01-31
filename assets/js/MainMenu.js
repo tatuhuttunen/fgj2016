@@ -395,6 +395,8 @@ BasicGame.MainMenu.prototype = {
 		//this.music = this.add.audio('titleMusic');
 		//this.music.play();
 
+
+		this.background = this.game.add.tileSprite(0, 0, 1024, 720, "background");
 		//this.add.sprite(0, 0, 'titlepage');
 		//this.players.splice(0,this.players.length);
 		this.endTurnButton = this.add.button(
