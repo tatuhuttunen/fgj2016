@@ -224,14 +224,14 @@ BasicGame.MainMenu.prototype = {
 			
 
 			
-
+			{
 			eventType: type,
 			eventInfo: '',
 			card_id: addinfo,
 			cardPackHost: hostArray,
 			cardPackGuest: guestArray
 			
-		}
+			}
 	
 				
 			);
@@ -242,7 +242,7 @@ BasicGame.MainMenu.prototype = {
 		
 
 	
-
+			{
 				eventType: type,
 				eventInfo: '',
 				card_id: addinfo
