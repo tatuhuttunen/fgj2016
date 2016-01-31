@@ -23,6 +23,7 @@ BasicGame.MainMenu = function (game) {
 	  this.counter = 0;
 	  this.limit = 150;
 	  this.eventsJSON = null;
+    this.latestHandledEvent = null;
 
 
 };
@@ -61,7 +62,7 @@ BasicGame.MainMenu.prototype = {
 	},
 	endTurn: function(playerData){
 
-	
+
 		this.players[0].cardSelected = null;
 
 		for(var i = 0; i < 4; i++){
@@ -79,27 +80,21 @@ BasicGame.MainMenu.prototype = {
 
 		}
 	},
-	getEvent: function(jsonData){
+	getEvent: function(parsedData){
+		if(!parsedData || !parsedData.data || !parsedData.data.eventType) return;
 
+		if(parsedData.playerId == BasicGame.playerId){
 
-		var parsedData = JSON.parse(jsonData);
-
-		console.log(parsedData,"heppi");
-		var eitoimi = parsedData.length-1;
-		if(!parsedData || !parsedData[eitoimi].data || !parsedData[eitoimi].data.eventType) return;
-		
-		if(parsedData[eitoimi].playerId == BasicGame.playerId){
-			
-			if(parsedData[eitoimi].data.eventType === 'toHand'){
-				var card = this.findCardById(this.players[0] , parsedData[eitoimi].cardId);
-				if(parsedData[eitoimi].data.eventInfo === 'fromFloor'){
+			if(parsedData.data.eventType === 'toHand'){
+				var card = this.findCardById(this.players[0] , parsedData.cardId);
+				if(parsedData.data.eventInfo === 'fromFloor'){
 					card.sendToHand(this.players[0].cardFloor,this,null,"host");
 				}
-				else if(parsedData[eitoimi].data.eventInfo === 'fromPack'){
+				else if(parsedData.data.eventInfo === 'fromPack'){
 					card.sendToHand(this.players[0].cardFloor,this,'turn');
 				}
 			}
-			else if(parsedData[eitoimi].data.eventType === 'toFloor'){
+			else if(parsedData.data.eventType === 'toFloor'){
 
 				var card = this.findCardById(this.players[0] , parsedData[0].cardId);
 
@@ -108,12 +103,12 @@ BasicGame.MainMenu.prototype = {
 
 
 			}
-			else if(parsedData[eitoimi].data.eventType === 'endTurn'){
+			else if(parsedData.data.eventType === 'endTurn'){
 
 
 
 			}
-			else if(parsedData[eitoimi].data.eventType === 'attackTo'){
+			else if(parsedData.data.eventType === 'attackTo'){
 
 
 
@@ -122,26 +117,23 @@ BasicGame.MainMenu.prototype = {
 
 		}
 		else{
-	console.log(parsedData[eitoimi],"heivaan");
-			if(parsedData[eitoimi].data.eventType === 'gameStart'){
+			if(parsedData.data.eventType === 'gameStart'){
+				for(var i = 0; i < parsedData.data.cardPackHost.length; i++){
 
-	console.log("dddddheivaan");
-				for(var i = 0; i < parsedData[eitoimi].data.cardPackHost.length; i++){
-
-					this.players[1].cardPack.push(new Card(this,100, 300,parsedData[eitoimi].data.cardPackHost[i].Name ,this.players[1],'card_front',null,parsedData[eitoimi].data.cardPackGuest[i].id));
+					this.players[1].cardPack.push(new Card(this,100, 300,parsedData.data.cardPackHost[i].Name ,this.players[1],'card_front',null,parsedData.data.cardPackGuest[i].id));
 
 				}
 
-				for(var i = 0; i < parsedData[eitoimi].data.cardPackGuest.length; i++){
+				for(var i = 0; i < parsedData.data.cardPackGuest.length; i++){
 
-					this.players[0].cardPack.push(new Card(this,900, 300,parsedData[eitoimi].data.cardPackGuest[i].Name ,this.players[0],'card_front',null,parsedData[eitoimi].data.cardPackGuest[i].id));
+					this.players[0].cardPack.push(new Card(this,900, 300,parsedData.data.cardPackGuest[i].Name ,this.players[0],'card_front',null,parsedData.data.cardPackGuest[i].id));
 
 				}
 
-				
-		
 
-		
+
+
+
 
 				for(var i = 0; i < 50; i++)
 				{
@@ -150,30 +142,24 @@ BasicGame.MainMenu.prototype = {
 				}
 
 			}
-			else if(parsedData[eitoimi].data.eventType === 'toHand'){
-				var card = this.findCardById(this.players[1] , parsedData[eitoimi].data.card_id);
+			else if(parsedData.data.eventType === 'toHand'){
+				var card = this.findCardById(this.players[1] , parsedData.data.card_id);
 
 				card.sendToHand(this.players[1].cardFloor,this,null,"host");
-				/*if(parsedData[eitoimi].data.eventInfo === 'fromFloor'){
-					card.sendToHand(this.players[1].cardFloor,this);
-				}
-				else if(parsedData[eitoimi].data.eventInfo === 'fromPack'){
-					card.sendToHand(this.players[1].cardFloor,this);
-				}*/
 			}
-			else if(parsedData[eitoimi].data.eventType === 'toFloor'){
+			else if(parsedData.data.eventType === 'toFloor'){
 
-				var card = this.findCardById(this.players[1] , parsedData[eitoimi].data.card_id);
+				var card = this.findCardById(this.players[1] , parsedData.data.card_id);
 
 				card.sendToFloor(this.players[1].cardHand,this,'turn');
 
 			}
-			else if(parsedData[eitoimi].data.eventType === 'endTurn'){
+			else if(parsedData.data.eventType === 'endTurn'){
 
 
 
 			}
-			else if(parsedData[eitoimi].data.eventType === 'attackTo'){
+			else if(parsedData.data.eventType === 'attackTo'){
 
 
 
@@ -196,14 +182,14 @@ BasicGame.MainMenu.prototype = {
 			var saveObject = function(Name,frontName,id){
 
 		    this.Name = Name;
-		  
 
-			
+
+
 			this.frontName = frontName;
-			
+
 
 			this.id = id;
-			
+
 			};
 
 			for(var i = 0; i < this.players[0].cardPack.length; i++){
@@ -212,49 +198,49 @@ BasicGame.MainMenu.prototype = {
 			}
 
 			for(var i = 0; i < this.players[1].cardPack.length; i++){
-				
+
 				guestArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
 			}
 		}
-		
 
 
-		
+
+
 		if(type === 'gameStart'){
 			this.postEvent(
-			
 
-			
+
+
 			{
 			eventType: type,
 			eventInfo: '',
 			card_id: addinfo,
 			cardPackHost: hostArray,
 			cardPackGuest: guestArray
-			
+
 			}
-	
-				
+
+
 			);
 		}
-		
+
 		if(type === 'toHand'){
 			this.postEvent(
-		
 
-	
+
+
 			{
 				eventType: type,
 				eventInfo: '',
 				card_id: addinfo
-				
-		
+
+
 			}
-	
-				
+
+
 			);
 
-			
+
 		}
 		else if(type === 'toFloor'){
 
@@ -282,7 +268,7 @@ BasicGame.MainMenu.prototype = {
 		this.players.push(new Player(this,0,0,'Player'));
 		this.players.push(new Player(this,0,0,'Opponent'));
 		var game = this;
-    
+
 
     	if(BasicGame.playerId === "host"){
 
@@ -312,7 +298,7 @@ BasicGame.MainMenu.prototype = {
 			this.sendEvent('gameStart');
     	}
 
-		
+
 
 		//this.playButton = this.add.button(400, 600, 'playButton', this.startGame, this, 'buttonOver', 'buttonOut', 'buttonOver');
 		/*for(var i = 0; i < 5; i++){
@@ -429,10 +415,24 @@ BasicGame.MainMenu.prototype = {
       url: API_URL + '?action=getevents' + '&sessionId=' + BasicGame.sessionId,
       success: function(data){
         if (data !== "") {
-          instance.getEvent(data);
+          //instance.getEvent(data);
+          instance.handleEventQueue(data);
         }
       },
     });
+  },
+
+  handleEventQueue: function(data) {
+    var parsedData = JSON.parse(data);
+    if(this.latestHandledEvent === null) {
+      this.getEvent(parsedData[0]);
+      this.latestHandledEvent = 0;
+    }
+    var i = this.latestHandledEvent + 1;
+    for (i; i < parsedData.length; i++) {
+      this.getEvent(parsedData[i]);
+      this.latestHandledEvent = i;
+    }
   }
 
 
