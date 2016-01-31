@@ -24,8 +24,48 @@ BasicGame.MainMenu = function (game) {
 	  this.limit = 150;
 	  this.eventsJSON = null;
     this.latestHandledEvent = null;
-
-
+  this.availableCards = [
+    {
+      type: 'Player ',
+      image: 'card_front'
+    },
+    {
+      type: 'Stuba',
+      image: 'taabo'
+    },
+    {
+      type: 'Fuksi',
+      image: 'typera_fuksi'
+    },
+    {
+      type: 'Teekkari',
+      image: 'teekkari'
+    },
+    {
+      type: 'Tuutori',
+      image: 'tuutori'
+    },
+    {
+      type: 'PJ',
+      image: 'pj'
+    },
+    {
+      type: 'Kyykkaaja',
+      image: 'kyykkaaja'
+    },
+    {
+      type: 'Sammunut',
+      image: 'sammunut_teekkari'
+    },
+    {
+      type: 'N-fuksi',
+      image: 'n-fuksi'
+    },
+    {
+      type: 'Koodari',
+      image: 'koodari'
+    }
+  ];
 };
 
 BasicGame.MainMenu.prototype = {
@@ -72,7 +112,7 @@ BasicGame.MainMenu.prototype = {
 			}
 		}
 
-		for(var i = 0; i < 5; i++){	
+		for(var i = 0; i < 5; i++){
 			if(this.players[0].cardHand[i]){
 				this.players[0].cardHand[i].events.onInputDown.removeAll();
 			}
@@ -83,17 +123,17 @@ BasicGame.MainMenu.prototype = {
 				this.players[0].cardPack[i].events.onInputDown.removeAll();
 			}
 		}
-			
+
 		this.sendEvent('endTurn');
 
-		
+
 	},
 	startTurn: function(){
 
 
-		
 
-		for(var i = 0; i < 5; i++){	
+
+		for(var i = 0; i < 5; i++){
 			if(this.players[0].cardHand[i]){
 				this.players[0].cardHand[i].events.onInputDown.add(function(buf){buf.sendToFloor(buf.upper.cardHand,game,null,"host");} , this);
 			}
@@ -108,11 +148,11 @@ BasicGame.MainMenu.prototype = {
 		for(var i = 0; i < 4; i++){
 
 
-			if(this.players[0].cardFloor[i]){
+			if(this.player[0].cardFloor[i]){
 				this.players[0].cardFloor[i].events.onInputDown.removeAll();
 				this.players[0].cardFloor[i].events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , this);
 			}
-			
+
 
 		}
 
@@ -129,7 +169,7 @@ BasicGame.MainMenu.prototype = {
 				var card = this.findCardById(this.players[0] , parsedData.data.card_id);
 			//	card.sendToHand(this.players[0].cardFloor,this,null,"host");
 				if(parsedData.data.eventInfo === 'fromFloor'){
-					
+
 				}
 				else if(parsedData.data.eventInfo === 'fromPack'){
 					card.sendToHand(this.players[0].cardFloor,this,null,"host",true);
@@ -218,7 +258,7 @@ BasicGame.MainMenu.prototype = {
 		var game = this;
 		var guestArray = new Array();
 		var hostArray = new Array();
-		
+
 		if(type === 'gameStart'){
 			var saveObject = function(Name,frontName,id){
 
@@ -346,16 +386,15 @@ BasicGame.MainMenu.prototype = {
 		this.players.push(new Player(this,0,0,'Player'));
 		this.players.push(new Player(this,0,0,'Opponent'));
 		var game = this;
-
-
     	if(BasicGame.playerId === "host"){
 
 
     		for(var i = 0; i < 20; i++){
+          nOCards = this.availableCards.length;
+          var rand = Math.floor(Math.random() * nOCards)
 
 
-
-			var buf = new Card(this,900, 300,"Player " + i ,this.players[0],'card_front');
+			var buf = new Card(this,900, 300,this.availableCards[rand].type ,this.players[0],this.availableCards[rand].image);
 			buf.inputEnabled = true;
 			buf.anchor.set(0.5);
 			buf.events.onInputDown.add(function(buf){buf.sendToHand(game.players[0].cardPack,this,'turn');} , this);
@@ -363,10 +402,11 @@ BasicGame.MainMenu.prototype = {
 			}
 
 			for(var i = 0; i < 20; i++){
+        nOCards = this.availableCards.length;
+        var rand = Math.floor(Math.random() * nOCards)
 
 
-
-			var buf = new Card(this,100, 300,"Opponent " + i ,this.players[1],'card_front');
+			var buf = new Card(this,100, 300,this.availableCards[rand].type,this.players[1],this.availableCards[rand].image);
 			buf.inputEnabled = true;
 			buf.anchor.set(0.5);
 			//buf.events.onInputDown.add(function(buf){buf.sendToHand(game.players[1].cardPack,this,'turn');} , this);
