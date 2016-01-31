@@ -177,7 +177,7 @@ BasicGame.MainMenu.prototype = {
 
 		if(parsedData.playerId == BasicGame.playerId){
 
-			if(parsedData.data.eventType === 'toHand'){
+			/*if(parsedData.data.eventType === 'toHand'){
 				var card = this.findCardById(this.players[0] , parsedData.data.card_id);
 			//	card.sendToHand(this.players[0].cardFloor,this,null,"host");
 				if(parsedData.data.eventInfo === 'fromFloor'){
@@ -205,7 +205,7 @@ BasicGame.MainMenu.prototype = {
 
 
 
-			}
+			}*/
 
 
 		}

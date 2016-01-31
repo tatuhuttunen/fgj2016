@@ -78,7 +78,7 @@ Card.prototype.update = function() {
 };
 Card.prototype.sendToHand = function(compare_array,game,command,playerName,handlingEvent) {
 
-
+	this.events.onInputDown.removeAll();
     //this.angle += this.rotateSpeed;
 	var len  = 0;
     for(var b = 0; b < 5; b++){
@@ -122,7 +122,7 @@ var ypos = 0;
 
     if(len < 5){
     	var tween = game.add.tween(this).to({ x: xpos, y: ypos },1500,Phaser.Easing.Exponential.Out, true);
-    	this.events.onInputDown.removeAll();
+    	
 		for(var i = 0; i < compare_array.length; i++){
 			if(compare_array[i] && compare_array[i].Name === this.Name){
 				compare_array[i] = null;
@@ -160,13 +160,13 @@ Card.prototype.targeted = function(game){
 
 };
 Card.prototype.sendToFloor = function(compare_array,game,command,playerName,handlingEvent) {
-
-	
+	console.log("täs mä");
+	this.events.onInputDown.removeAll();
     //this.angle += this.rotateSpeed;
     var len  = 0;
     for(var b = 0; b < 5; b++){
     	if(this.upper.cardFloor[b]){
-
+    		console.log(this.upper.cardFloor[b],"hup");
     		len++;
     	}
 
@@ -181,6 +181,9 @@ Card.prototype.sendToFloor = function(compare_array,game,command,playerName,hand
     		this.upper.cardFloor[z] = this;
     		break;
     	}
+    	else{
+    		console.log(this.upper.cardFloor[z],"kul");
+    	}
 
     }
 
@@ -190,18 +193,18 @@ Card.prototype.sendToFloor = function(compare_array,game,command,playerName,hand
 	if(playerName && playerName == "host" ){
 
 	    //1024 / 2, 512 /2, 256 + (5*80)
-	  	ypos = 300;
+	  	ypos = 275;
 	}
 	else{
 
-		ypos = 400;
+		ypos = 375;
 
 	}
 
 
     if(len < 4){
     	var tween = game.add.tween(this).to({ x: xpos, y: ypos },1500,Phaser.Easing.Exponential.Out, true);
-    	this.events.onInputDown.removeAll();
+    	
 		for(var i = 0; i < compare_array.length; i++){
 			if(compare_array[i] && compare_array[i].Name === this.Name){
 				compare_array[i] = null;
@@ -221,7 +224,7 @@ Card.prototype.sendToFloor = function(compare_array,game,command,playerName,hand
 				game.sendEvent('toFloor',buf.id);
 			}
 
-			buf.events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , game);
+			//buf.events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , game);
 			//buf.events.onInputDown.add(function(buf){buf.sendToHand(buf.upper.cardFloor,game);} , game);
 			
 		});
