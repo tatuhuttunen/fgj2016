@@ -160,7 +160,7 @@ Card.prototype.targeted = function(game){
 
 };
 Card.prototype.sendToFloor = function(compare_array,game,command,playerName,handlingEvent) {
-	console.log("täs mä");
+	
 	this.events.onInputDown.removeAll();
     //this.angle += this.rotateSpeed;
     var len  = 0;
@@ -200,7 +200,7 @@ Card.prototype.sendToFloor = function(compare_array,game,command,playerName,hand
 		ypos = 375;
 
 	}
-
+	console.log(ypos);
 
     if(len < 4){
     	var tween = game.add.tween(this).to({ x: xpos, y: ypos },1500,Phaser.Easing.Exponential.Out, true);
