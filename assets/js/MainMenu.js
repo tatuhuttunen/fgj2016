@@ -83,37 +83,37 @@ BasicGame.MainMenu.prototype = {
 
 
 		var parsedData = JSON.parse(jsonData);
-	
+
+		console.log(parsedData,"heppi");
+		var eitoimi = parsedData.length-1;
+		if(!parsedData || !parsedData[eitoimi].data || !parsedData[eitoimi].data.eventType) return;
 		
-		if(!parsedData) return;
-
-
-		if(parsedData.player_id === BasicGame.playerId){
+		if(parsedData[eitoimi].playerId == BasicGame.playerId){
 			
-			if(parsedData.data.eventType === 'toHand'){
-				var card = findCardById(this.players[0] , parsedData.cardId);
-				if(parsedData.data.eventInfo === 'fromFloor'){
-					card.sendToHand(this.players[0].cardFloor,this);
+			if(parsedData[eitoimi].data.eventType === 'toHand'){
+				var card = this.findCardById(this.players[0] , parsedData[eitoimi].cardId);
+				if(parsedData[eitoimi].data.eventInfo === 'fromFloor'){
+					card.sendToHand(this.players[0].cardFloor,this,null,"host");
 				}
-				else if(parsedData.data.eventInfo === 'fromPack'){
+				else if(parsedData[eitoimi].data.eventInfo === 'fromPack'){
 					card.sendToHand(this.players[0].cardFloor,this,'turn');
 				}
 			}
-			else if(parsedData.data.eventType === 'toFloor'){
+			else if(parsedData[eitoimi].data.eventType === 'toFloor'){
 
-				var card = findCardById(this.players[0] , parsedData.cardId);
+				var card = this.findCardById(this.players[0] , parsedData[0].cardId);
 
 				card.sendToFloor(this.players[0].cardHand,this);
 
 
 
 			}
-			else if(parsedData.eventType === 'endTurn'){
+			else if(parsedData[eitoimi].data.eventType === 'endTurn'){
 
 
 
 			}
-			else if(parsedData.eventType === 'attackTo'){
+			else if(parsedData[eitoimi].data.eventType === 'attackTo'){
 
 
 
@@ -122,11 +122,27 @@ BasicGame.MainMenu.prototype = {
 
 		}
 		else{
+	console.log(parsedData[eitoimi],"heivaan");
+			if(parsedData[eitoimi].data.eventType === 'gameStart'){
 
-			if(parsedData.data.eventType === 'startGame'){
+	console.log("dddddheivaan");
+				for(var i = 0; i < parsedData[eitoimi].data.cardPackHost.length; i++){
 
-				this.players[1].cardPack = parsedData.data.cardPackHost;
-				this.players[0].cardPack = parsedData.data.cardPackGuest;
+					this.players[1].cardPack.push(new Card(this,100, 300,parsedData[eitoimi].data.cardPackHost[i].Name ,this.players[1],'card_front',null,parsedData[eitoimi].data.cardPackGuest[i].id));
+
+				}
+
+				for(var i = 0; i < parsedData[eitoimi].data.cardPackGuest.length; i++){
+
+					this.players[0].cardPack.push(new Card(this,900, 300,parsedData[eitoimi].data.cardPackGuest[i].Name ,this.players[0],'card_front',null,parsedData[eitoimi].data.cardPackGuest[i].id));
+
+				}
+
+				
+		
+
+		
+
 				for(var i = 0; i < 50; i++)
 				{
 					this.add.existing(this.players[0].cardPack[i]);
@@ -134,28 +150,30 @@ BasicGame.MainMenu.prototype = {
 				}
 
 			}
-			else if(parsedData.eventType === 'toHand'){
-				var card = findCardById(this.players[1] , parsedData.data.card_id);
-				if(parsedData.eventInfo === 'fromFloor'){
-					card.sendToHand(this.players[1].cardFloor,this);
-				}
-				else if(parsedData.eventInfo === 'fromPack'){
-					card.sendToHand(this.players[1].cardFloor,this);
-				}
-			}
-			else if(parsedData.eventType === 'toFloor'){
+			else if(parsedData[eitoimi].data.eventType === 'toHand'){
+				var card = this.findCardById(this.players[1] , parsedData[eitoimi].data.card_id);
 
-				var card = findCardById(this.players[1] , parsedData.data.card_id);
+				card.sendToHand(this.players[1].cardFloor,this,null,"host");
+				/*if(parsedData[eitoimi].data.eventInfo === 'fromFloor'){
+					card.sendToHand(this.players[1].cardFloor,this);
+				}
+				else if(parsedData[eitoimi].data.eventInfo === 'fromPack'){
+					card.sendToHand(this.players[1].cardFloor,this);
+				}*/
+			}
+			else if(parsedData[eitoimi].data.eventType === 'toFloor'){
+
+				var card = this.findCardById(this.players[1] , parsedData[eitoimi].data.card_id);
 
 				card.sendToFloor(this.players[1].cardHand,this,'turn');
 
 			}
-			else if(parsedData.eventType === 'endTurn'){
+			else if(parsedData[eitoimi].data.eventType === 'endTurn'){
 
 
 
 			}
-			else if(parsedData.eventType === 'attackTo'){
+			else if(parsedData[eitoimi].data.eventType === 'attackTo'){
 
 
 
@@ -171,42 +189,69 @@ BasicGame.MainMenu.prototype = {
 	sendEvent: function(type,addinfo){
 
 		var game = this;
+		var guestArray = new Array();
+		var hostArray = new Array();
+
 		if(type === 'gameStart'){
-			this.postEvent(
-			JSON.stringify({
+			var saveObject = function(Name,frontName,id){
 
-			player_id: BasicGame.playerId,
-			sessionId: BasicGame.sessionId,
-			data: {
+		    this.Name = Name;
+		  
 
-				eventType: type,
-				eventInfo: '',
-				card_id: addinfo,
-				cardPackHost: game.players[0].cardPack,
-				cardPackGuest: game.players[1].cardPack
+			
+			this.frontName = frontName;
+			
+
+			this.id = id;
+			
+			};
+
+			for(var i = 0; i < this.players[0].cardPack.length; i++){
+
+				hostArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
+			}
+
+			for(var i = 0; i < this.players[1].cardPack.length; i++){
+				
+				guestArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
 			}
 		}
+		
+
+
+		
+		if(type === 'gameStart'){
+			this.postEvent(
+			
+
+			
+			{
+			eventType: type,
+			eventInfo: '',
+			card_id: addinfo,
+			cardPackHost: hostArray,
+			cardPackGuest: guestArray
+			
+			}
 	
-				)
+				
 			);
 		}
 		
 		if(type === 'toHand'){
 			this.postEvent(
-			JSON.stringify({
+		
 
-			player_id: BasicGame.playerId,
-			sessionId: BasicGame.sessionId,
-			data: {
-
+	
+			{
 				eventType: type,
 				eventInfo: '',
 				card_id: addinfo
 				
 		
-			}}
+			}
 	
-				)
+				
 			);
 
 			
