@@ -133,7 +133,7 @@ var ypos = 0;
 		tween.onComplete.add(function(){
 			if(command && command === 'turn'){
 
-				if(buf.key === 'card_back'){
+				if(buf.key === 'card'){
 					game.setTurning(buf);
 				}
 				
