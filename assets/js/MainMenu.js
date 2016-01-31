@@ -67,20 +67,20 @@ BasicGame.MainMenu.prototype = {
 
 		for(var i = 0; i < 4; i++){
 
-			if(this.players[1].cardFloor[i]){
-				this.players[1].cardFloor[i].events.onInputDown.removeAll();
+			if(this.players[0].cardFloor[i]){
+				this.players[0].cardFloor[i].events.onInputDown.removeAll();
 			}
 		}
 
 		for(var i = 0; i < 5; i++){	
-			if(this.players[1].cardHand[i]){
-				this.players[1].cardHand[i].events.onInputDown.removeAll();
+			if(this.players[0].cardHand[i]){
+				this.players[0].cardHand[i].events.onInputDown.removeAll();
 			}
 		}
 
 		for(var i = 0; i < 20; i++){
-			if(this.players[1].cardPack[i]){
-				this.players[1].cardPack[i].events.onInputDown.removeAll();
+			if(this.players[0].cardPack[i]){
+				this.players[0].cardPack[i].events.onInputDown.removeAll();
 			}
 		}
 			
@@ -327,7 +327,7 @@ BasicGame.MainMenu.prototype = {
 
 		//this.add.sprite(0, 0, 'titlepage');
 		//this.players.splice(0,this.players.length);
-		 this.endTurnButton = this.add.button(
+		this.endTurnButton = this.add.button(
 	      this.world.centerX + 300,
 	      450,
 	      'join',
@@ -401,7 +401,7 @@ BasicGame.MainMenu.prototype = {
 */
 		if(BasicGame.playerId === "host"){
 
-			for(var i = 0; i < 50; i++)
+			for(var i = 0; i < 20; i++)
 				{
 					this.add.existing(this.players[0].cardPack[i]);
 					this.add.existing(this.players[1].cardPack[i]);
