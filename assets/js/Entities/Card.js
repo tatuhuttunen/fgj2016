@@ -132,7 +132,11 @@ var ypos = 0;
 		}
 		tween.onComplete.add(function(){
 			if(command && command === 'turn'){
-				game.setTurning(buf);
+
+				if(buf.key === 'card_back'){
+					game.setTurning(buf);
+				}
+				
 			}
 			
 			if(!handlingEvent){

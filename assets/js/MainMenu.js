@@ -142,7 +142,7 @@ BasicGame.MainMenu.prototype = {
 
 				//buf.events.onInputDown.add(function(buf){buf.sendToHand(game.players[0].cardPack,this,'turn');} , this);
 				buf.inputEnabled = true;
-				buf.events.onInputDown.add(function(buf){buf.sendToFloor(game.players[0].cardHand,this);} , this);
+				buf.events.onInputDown.add(function(buf){buf.sendToFloor(game.players[0].cardHand,this,'turn');} , this);
 			}
 		}
 
@@ -151,7 +151,7 @@ BasicGame.MainMenu.prototype = {
 
 				var buf = this.players[0].cardPack[i];
 				buf.inputEnabled = true;
-				buf.events.onInputDown.add(function(buf){ buf.sendToHand(game.players[0].cardPack,this);} , this);
+				buf.events.onInputDown.add(function(buf){ buf.sendToHand(game.players[0].cardPack,this,'turn');} , this);
 			}
 		}
 //
