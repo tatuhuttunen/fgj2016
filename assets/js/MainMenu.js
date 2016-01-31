@@ -425,6 +425,10 @@ BasicGame.MainMenu.prototype = {
 			var buf = new Card(this,900, 300,this.availableCards[rand].type ,this.players[0],this.availableCards[rand].image);
 			buf.inputEnabled = true;
 			buf.anchor.set(0.5);
+			var text = game.add.text(-10, 25, buf.dmg+"    "+buf.health, {font: "16px Arial", fill: "#000000"});
+			if (buf.health != undefined && buf.dmg != undefined ) {
+			buf.addChild(text);
+			}
 			buf.events.onInputDown.add(function(buf){buf.sendToHand(game.players[0].cardPack,this,'turn');} , this);
 			this.players[0].cardPack.push(buf);
 			}
