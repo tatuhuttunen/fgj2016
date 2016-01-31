@@ -291,7 +291,7 @@ BasicGame.MainMenu.prototype = {
 			for(var i = 0; i < this.players[0].cardPack.length; i++){
 
 				if(BasicGame.player_id === "host"){
-					guestArray.push(new saveObject(this.players[1].cardPack[1].Name,this.players[1].cardPack[i].frontName,this.players[1].cardPack[i].id));
+					guestArray.push(new saveObject(this.players[1].cardPack[i].Name,this.players[1].cardPack[i].frontName,this.players[1].cardPack[i].id));
 				}
 				else{
 					hostArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
@@ -301,7 +301,7 @@ BasicGame.MainMenu.prototype = {
 			for(var i = 0; i < this.players[1].cardPack.length; i++){
 
 				if(BasicGame.player_id === "host"){
-					guestArray.push(new saveObject(this.players[1].cardPack[1].Name,this.players[1].cardPack[i].frontName,this.players[1].cardPack[i].id));
+					hostArray.push(new saveObject(this.players[1].cardPack[i].Name,this.players[1].cardPack[i].frontName,this.players[1].cardPack[i].id));
 				}
 				else{
 					guestArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
