@@ -100,6 +100,7 @@ BasicGame.MainMenu.prototype = {
 
 
 	},
+	isTurn: false,
 	endTurn: function(){
 
 
@@ -131,26 +132,37 @@ BasicGame.MainMenu.prototype = {
 	startTurn: function(){
 
 
+		var game = this;
 
 
 		for(var i = 0; i < 5; i++){
 			if(this.players[0].cardHand[i]){
-				this.players[0].cardHand[i].events.onInputDown.add(function(buf){buf.sendToFloor(buf.upper.cardHand,game,null,"host");} , this);
+
+				var buf = this.players[0].cardHand[i];
+
+				//buf.events.onInputDown.add(function(buf){buf.sendToHand(game.players[0].cardPack,this,'turn');} , this);
+				buf.inputEnabled = true;
+				buf.events.onInputDown.add(function(buf){buf.sendToFloor(game.players[0].cardHand,this,'turn');} , this);
 			}
 		}
 
 		for(var i = 0; i < 20; i++){
 			if(this.players[0].cardPack[i]){
-				this.players[0].cardPack[i].events.onInputDown.add(function(buf){buf.sendToHand(buf.upper.cardPack,game,null,"host");} , this);
+
+				var buf = this.players[0].cardPack[i];
+				buf.inputEnabled = true;
+				buf.events.onInputDown.add(function(buf){ buf.sendToHand(game.players[0].cardPack,this,'turn');} , this);
 			}
 		}
-
+//
 		for(var i = 0; i < 4; i++){
 
+			if(this.players[0].cardFloor[i]){
+				var buf = this.players[0].cardFloor[i];
+				buf.events.onInputDown.removeAll();
+				buf.inputEnabled = true;
+				buf.events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , this);
 
-			if(this.player[0].cardFloor[i]){
-				this.players[0].cardFloor[i].events.onInputDown.removeAll();
-				this.players[0].cardFloor[i].events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , this);
 			}
 
 
@@ -159,7 +171,7 @@ BasicGame.MainMenu.prototype = {
 
 	},
 	getEvent: function(parsedData){
-		console.log(parsedData.data.eventType,"pilumaximus");
+
 
 		if(!parsedData || !parsedData.data || !parsedData.data.eventType) return;
 
@@ -198,16 +210,19 @@ BasicGame.MainMenu.prototype = {
 
 		}
 		else{
+
 			if(parsedData.data.eventType === 'gameStart'){
+
+
 				for(var i = 0; i < parsedData.data.cardPackHost.length; i++){
 
-					this.players[1].cardPack.push(new Card(this,100, 300,parsedData.data.cardPackHost[i].Name ,this.players[1],'card_front',null,parsedData.data.cardPackGuest[i].id));
+					this.players[1].cardPack.push(new Card(this,100, 300,parsedData.data.cardPackHost[i].Name ,this.players[1],parsedData.data.cardPackHost[i].frontName,null,parsedData.data.cardPackGuest[i].id));
 
 				}
 
 				for(var i = 0; i < parsedData.data.cardPackGuest.length; i++){
 
-					this.players[0].cardPack.push(new Card(this,900, 300,parsedData.data.cardPackGuest[i].Name ,this.players[0],'card_front',null,parsedData.data.cardPackGuest[i].id));
+					this.players[0].cardPack.push(new Card(this,900, 300,parsedData.data.cardPackGuest[i].Name ,this.players[0],parsedData.data.cardPackGuest[i].frontName,null,parsedData.data.cardPackGuest[i].id));
 
 				}
 
@@ -216,7 +231,7 @@ BasicGame.MainMenu.prototype = {
 
 
 
-				for(var i = 0; i < 50; i++)
+				for(var i = 0; i < 20; i++)
 				{
 					this.add.existing(this.players[0].cardPack[i]);
 					this.add.existing(this.players[1].cardPack[i]);
@@ -275,12 +290,23 @@ BasicGame.MainMenu.prototype = {
 
 			for(var i = 0; i < this.players[0].cardPack.length; i++){
 
-				hostArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
+				if(BasicGame.player_id === "host"){
+					guestArray.push(new saveObject(this.players[1].cardPack[1].Name,this.players[1].cardPack[i].frontName,this.players[1].cardPack[i].id));
+				}
+				else{
+					hostArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
+				}
 			}
 
 			for(var i = 0; i < this.players[1].cardPack.length; i++){
 
-				guestArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
+				if(BasicGame.player_id === "host"){
+					guestArray.push(new saveObject(this.players[1].cardPack[1].Name,this.players[1].cardPack[i].frontName,this.players[1].cardPack[i].id));
+				}
+				else{
+					guestArray.push(new saveObject(this.players[0].cardPack[i].Name,this.players[0].cardPack[i].frontName,this.players[0].cardPack[i].id));
+				}
+
 			}
 		}
 
@@ -374,7 +400,7 @@ BasicGame.MainMenu.prototype = {
 		this.endTurnButton = this.add.button(
 	      this.world.centerX + 300,
 	      450,
-	      'join',
+	      'end',
 	      this.endTurn,
 	      this,
 	      2,
@@ -550,13 +576,13 @@ BasicGame.MainMenu.prototype = {
     var parsedData = JSON.parse(data);
     if(this.latestHandledEvent === null) {
       this.getEvent(parsedData[0]);
-       console.log("tdäs");
+
       this.latestHandledEvent = 0;
     }
     var i = this.latestHandledEvent + 1;
     for (i; i < parsedData.length; i++) {
       this.getEvent(parsedData[i]);
-      console.log(i,"täs");
+
       this.latestHandledEvent = i;
     }
 

@@ -13,7 +13,7 @@ Card = function (game, x, y, Name, upper, frontName,backName,id) {
 
 	this.id = id || (this.upper.cardPack.length + "PLAYER");
 	this.game = game;
-		if (Name == 'Stuba') {
+	if (Name == 'Stuba') {
 		this.health=5;
 		this.dmg=5;
 	}
