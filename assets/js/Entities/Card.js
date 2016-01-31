@@ -7,7 +7,7 @@ Card = function (game, x, y, Name, upper, frontName,backName,id) {
    	this.active = false;
 	this.turning = true;
 
-	this.backName = backName || 'card_back';
+	this.backName = backName || 'card';
 	this.frontName = frontName;
 	this.upper = upper;
 
@@ -132,7 +132,11 @@ var ypos = 0;
 		}
 		tween.onComplete.add(function(){
 			if(command && command === 'turn'){
-				game.setTurning(buf);
+
+				if(buf.key === 'card'){
+					game.setTurning(buf);
+				}
+				
 			}
 			
 			if(!handlingEvent){
