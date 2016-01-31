@@ -60,25 +60,59 @@ BasicGame.MainMenu.prototype = {
 
 
 	},
-	endTurn: function(playerData){
+	endTurn: function(){
 
 
 		this.players[0].cardSelected = null;
 
 		for(var i = 0; i < 4; i++){
 
-			this.players[1].cardFloor[i].events.onInputDown.removeAll();
-			this.players[1].cardFloor[i].events.onInputDown.add(function(buf){buf.Targeted(game);} , game);
-
+			if(this.players[1].cardFloor[i]){
+				this.players[1].cardFloor[i].events.onInputDown.removeAll();
+			}
 		}
+
+		for(var i = 0; i < 5; i++){	
+			if(this.players[1].cardHand[i]){
+				this.players[1].cardHand[i].events.onInputDown.removeAll();
+			}
+		}
+
+		for(var i = 0; i < 20; i++){
+			if(this.players[1].cardPack[i]){
+				this.players[1].cardPack[i].events.onInputDown.removeAll();
+			}
+		}
+			
+		this.sendEvent('endTurn');
+
+		
 	},
-	startTurn: function(playerData){
+	startTurn: function(){
+
+
+		
+
+		for(var i = 0; i < 5; i++){	
+			if(this.players[1].cardHand[i]){
+				this.players[1].cardHand[i].events.onInputDown.add(function(buf){buf.sendToFloor(buf.upper.cardHand,game,null,"host");} , game);
+			}
+		}
+
+		for(var i = 0; i < 20; i++){
+			if(this.players[1].cardPack[i]){
+				this.players[1].cardPack[i].bevents.onInputDown.add(function(buf){buf.sendToHand(buf.upper.cardPack,game,null,"host");} , game);
+			}
+		}
+
 		for(var i = 0; i < 4; i++){
 
 			this.players[0].cardFloor[i].events.onInputDown.removeAll();
 			this.players[0].cardFloor[i].events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , game);
 
 		}
+
+
 	},
 	getEvent: function(parsedData){
 		console.log(parsedData.data.eventType,"pilumaximus");
@@ -159,7 +193,7 @@ BasicGame.MainMenu.prototype = {
 			}
 			else if(parsedData.data.eventType === 'endTurn'){
 
-
+				this.startTurn();
 
 			}
 			else if(parsedData.data.eventType === 'attackTo'){
@@ -262,7 +296,19 @@ BasicGame.MainMenu.prototype = {
 			);
 		}
 		else if(type === 'endTurn'){
+			this.postEvent(
 
+
+
+			{
+				eventType: type,
+				eventInfo: ''
+
+
+			}
+
+
+			);
 		}
 		else if(type === 'attackTo'){
 
@@ -281,6 +327,18 @@ BasicGame.MainMenu.prototype = {
 
 		//this.add.sprite(0, 0, 'titlepage');
 		//this.players.splice(0,this.players.length);
+		 this.endTurnButton = this.add.button(
+	      this.world.centerX + 300,
+	      450,
+	      'join',
+	      this.endTurn,
+	      this,
+	      2,
+	      1,
+	      0
+	    );
+
+
 		this.players.push(new Player(this,0,0,'Player'));
 		this.players.push(new Player(this,0,0,'Opponent'));
 		var game = this;
