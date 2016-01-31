@@ -84,10 +84,10 @@ BasicGame.MainMenu.prototype = {
 
 		var parsedData = JSON.parse(jsonData);
 
-			console.log(parsedData,"heppi");
+		console.log(parsedData,"heppi");
 		var data = JSON.parse(parsedData.data); 
-		if(!parsedData || !parsedData.data || !parsedData.data.eventType) return;
-	
+		if(!parsedData || !data || !data.eventType) return;
+		parsedData.data = data;
 		console.log(parsedData.data.player_id);
 		if(parsedData.data.player_id == BasicGame.playerId){
 			
@@ -221,7 +221,7 @@ BasicGame.MainMenu.prototype = {
 		
 		if(type === 'gameStart'){
 			this.postEvent(
-			{
+			JSON.stringify({
 
 			
 
@@ -233,13 +233,13 @@ BasicGame.MainMenu.prototype = {
 			
 		}
 	
-				
+				)
 			);
 		}
 		
 		if(type === 'toHand'){
 			this.postEvent(
-			{
+			JSON.stringify({
 
 	
 
@@ -250,7 +250,7 @@ BasicGame.MainMenu.prototype = {
 		
 			}
 	
-				
+				)
 			);
 
 			
