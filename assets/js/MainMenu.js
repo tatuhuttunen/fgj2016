@@ -94,21 +94,21 @@ BasicGame.MainMenu.prototype = {
 		
 
 		for(var i = 0; i < 5; i++){	
-			if(this.players[1].cardHand[i]){
-				this.players[1].cardHand[i].events.onInputDown.add(function(buf){buf.sendToFloor(buf.upper.cardHand,game,null,"host");} , game);
+			if(this.players[0].cardHand[i]){
+				this.players[0].cardHand[i].events.onInputDown.add(function(buf){buf.sendToFloor(buf.upper.cardHand,game,null,"host");} , this);
 			}
 		}
 
 		for(var i = 0; i < 20; i++){
-			if(this.players[1].cardPack[i]){
-				this.players[1].cardPack[i].bevents.onInputDown.add(function(buf){buf.sendToHand(buf.upper.cardPack,game,null,"host");} , game);
+			if(this.players[0].cardPack[i]){
+				this.players[0].cardPack[i].events.onInputDown.add(function(buf){buf.sendToHand(buf.upper.cardPack,game,null,"host");} , this);
 			}
 		}
 
 		for(var i = 0; i < 4; i++){
 
 			this.players[0].cardFloor[i].events.onInputDown.removeAll();
-			this.players[0].cardFloor[i].events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , game);
+			this.players[0].cardFloor[i].events.onInputDown.add(function(buf){buf.selectAndAttack(game);} , this);
 
 		}
 
